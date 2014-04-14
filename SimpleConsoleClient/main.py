@@ -4,8 +4,8 @@ from OneRequestWebServer import grab_authorization_code
 import requests
 
 
-APPSERVER = "http://localhost:9080"
-# APPSERVER = "https://spbau-notifier-583.appspot.com"
+# APPSERVER = "http://localhost:9080"
+APPSERVER = "https://spbau-notifier-583.appspot.com"
 
 LOGIN_ADDRESS = APPSERVER + "/login"
 LOGOUT_ADDRESS = APPSERVER + "/logout"
@@ -14,6 +14,7 @@ AUTH_CALLBACK_ADDRESS = APPSERVER + "/oauth2callback"
 COOKIES = 'cookies.txt'
 
 session = requests.Session()
+
 
 def make_auth_request():
     #s = requests.Session()
