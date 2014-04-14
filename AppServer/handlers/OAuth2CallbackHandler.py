@@ -20,18 +20,23 @@ class OAuth2CallbackHandler(BaseHandler):
         Receive authentication code from user with GET['code'].
         Save credential if code exchange is successful.
         """
-        if 'code' in self.request.GET:
-            try:
-                credential = view.FLOW.step2_exchange(self.request.GET.get('code'))
-            except FlowExchangeError:
-                pass
-            else:
-                self.session['credential'] = pickle.dumps(credential)
+        if 'code' not in self.request.GET:
+            self.response.set_status(404)
+            self.response.write("Code parameter not found")
+            return
 
-                # Retrieve basic information about the user
-                users_service = build('oauth2', 'v2', http=credential.authorize(httplib2.Http()))
-                user_information = users_service.userinfo().get().execute()
-                logging.error(user_information)
-                self.session['id'] = user_information['id']
-                self.session['name'] = user_information['name']
-        self.redirect('/')
+        try:
+            credential = view.FLOW.step2_exchange(self.request.GET.get('code'))
+        except FlowExchangeError:
+            pass
+        else:
+            self.session['credential'] = pickle.dumps(credential)
+
+            # Retrieve basic information about the user
+            users_service = build('oauth2', 'v2', http=credential.authorize(httplib2.Http()))
+            user_information = users_service.userinfo().get().execute()
+            logging.error(user_information)
+            self.session['id'] = user_information['id']
+            self.session['name'] = user_information['name']
+            self.response.set_status(200)
+            self.response.write("OK " + self.session['name'])
