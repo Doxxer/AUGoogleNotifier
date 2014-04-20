@@ -1,15 +1,21 @@
 import BaseHTTPServer
-import SimpleHTTPServer
 from SocketServer import TCPServer
 import webbrowser
 
 
-class get_and_stop_handler(SimpleHTTPServer.SimpleHTTPRequestHandler):
+class get_and_stop_handler(BaseHTTPServer.BaseHTTPRequestHandler):
     def do_GET(self):
         request = self.path
         assert isinstance(request, str)
         if request.startswith("/?code="):
             self.server.authenticate_code = request.split("/?code=")[1]
+            self.send_response(200)
+            self.send_header("Content-type", "text/html")
+            self.end_headers()
+            self.wfile.write("<html>")
+            self.wfile.write("<body onload=\"window.open('','_self').close();\"/>")
+            self.wfile.write("</html>")
+            self.wfile.close()
             self.server.stop = True
 
 

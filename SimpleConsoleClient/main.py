@@ -3,34 +3,29 @@ import cookielib
 from OneRequestWebServer import grab_authorization_code
 import requests
 
-
 # APPSERVER = "http://localhost:9080"
 APPSERVER = "https://spbau-notifier-583.appspot.com"
 
 LOGIN_ADDRESS = APPSERVER + "/login"
 LOGOUT_ADDRESS = APPSERVER + "/logout"
 AUTH_CALLBACK_ADDRESS = APPSERVER + "/oauth2callback"
-
 COOKIES = 'cookies.txt'
-
-session = requests.Session()
+SESSION = requests.Session()
 
 
 def make_auth_request():
-    #s = requests.Session()
-
-    response = session.post(LOGIN_ADDRESS).text
+    response = SESSION.post(LOGIN_ADDRESS).text
 
     if response.split()[0].strip().lower() == "ok":
         print response
     else:
         auth_code = grab_authorization_code(url=response)
-        response = session.get(AUTH_CALLBACK_ADDRESS, params={'code': auth_code})
+        response = SESSION.get(AUTH_CALLBACK_ADDRESS, params={'code': auth_code})
         print response.status_code, response.reason, response.text
 
 
 def make_logout_request():
-    response = session.get(LOGOUT_ADDRESS)
+    response = SESSION.get(LOGOUT_ADDRESS)
     print response.status_code, response.reason, response.text
 
 
@@ -76,6 +71,6 @@ def save_cookies_lwp(cookiejar, filename):
 
 
 if __name__ == "__main__":
-    session.cookies = load_cookies_from_lwp(COOKIES)
+    SESSION.cookies = load_cookies_from_lwp(COOKIES)
     main()
-    save_cookies_lwp(session.cookies, COOKIES)
+    save_cookies_lwp(SESSION.cookies, COOKIES)
