@@ -1,3 +1,5 @@
+#!/usr/bin/env python
+
 from CookiesHelper import load_cookies, save_cookies
 
 from OneRequestWebServer import grab_authorization_code
