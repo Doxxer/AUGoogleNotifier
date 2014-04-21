@@ -1,6 +1,6 @@
 #!/usr/bin/env python
 
-from CookiesHelper import load_cookies, save_cookies
+from CookieManager import load_cookies, save_cookies
 
 from OneRequestWebServer import grab_authorization_code
 import requests
@@ -44,8 +44,9 @@ def process_message(message):
 
 def show_usage():
     print "Usage: auth | logout | q"
-    print "auth -- try to authenticate. If success it returns \"OK %USERNAME%\". Else -- URL"
+    print "auth -- try to authenticate. If success it returns \"OK %USERNAME%\""
     print "logout -- logout"
+    print "q -- quit"
 
 
 def main():

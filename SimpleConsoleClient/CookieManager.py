@@ -2,7 +2,6 @@ import cookielib
 import os
 from uuid import getnode as get_mac
 
-
 def load_cookies(cookies, filename):
     if not os.path.isfile(filename):
         save_cookies(cookies, filename)
