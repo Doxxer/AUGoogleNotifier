@@ -42,9 +42,8 @@ def process_message(message):
         show_usage()
     return True
 
-
 def show_usage():
-    print "Usage: auth | logout "
+    print "Usage: auth | logout | q"
     print "auth -- try to authenticate. If success it returns \"OK %USERNAME%\". Else -- URL"
     print "logout -- logout"
 
