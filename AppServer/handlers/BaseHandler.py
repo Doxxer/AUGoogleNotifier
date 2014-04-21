@@ -1,5 +1,3 @@
-import logging
-
 import webapp2
 from webapp2_extras import sessions
 
@@ -43,3 +41,10 @@ class BaseHandler(webapp2.RequestHandler):
         Return an oauth authorization url if user needs authorization.
         """
         return view.FLOW.step1_get_authorize_url()
+
+    def get_value_from_cookie(self, key):
+        """
+        Return a value by key from cookie_header
+        """
+        cookie_dict = dict(item.split("=") for item in self.request.headers['Cookie'].split(";"))
+        return cookie_dict.get(key)

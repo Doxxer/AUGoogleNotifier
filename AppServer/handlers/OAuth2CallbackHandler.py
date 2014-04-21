@@ -31,6 +31,7 @@ class OAuth2CallbackHandler(BaseHandler):
             pass
         else:
             self.session['credential'] = pickle.dumps(credential)
+            self.session['mac_address'] = self.get_value_from_cookie('mac_address')
 
             # Retrieve basic information about the user
             users_service = build('oauth2', 'v2', http=credential.authorize(httplib2.Http()))

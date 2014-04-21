@@ -18,13 +18,18 @@ class LoginHandler(BaseHandler):
         """
         logging.error(self.session)
 
-        if 'credential' not in self.session:
+        if not self.user_logged_in():
             self.response.write(self.compose_auth_url())
             return
 
         if self.authenticate_user():
             self.response.set_status(200)
             self.response.write("OK " + self.session['name'])
+
+    def user_logged_in(self):
+        return 'credential' in self.session and \
+               'mac_address' in self.session and \
+               self.session['mac_address'] == self.get_value_from_cookie('mac_address')
 
     def compose_auth_url(self):
         return self.create_login_url()

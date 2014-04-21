@@ -1,4 +1,4 @@
-import cookielib
+from CookiesHelper import load_cookies, save_cookies
 
 from OneRequestWebServer import grab_authorization_code
 import requests
@@ -9,7 +9,7 @@ APPSERVER = "https://spbau-notifier-583.appspot.com"
 LOGIN_ADDRESS = APPSERVER + "/login"
 LOGOUT_ADDRESS = APPSERVER + "/logout"
 AUTH_CALLBACK_ADDRESS = APPSERVER + "/oauth2callback"
-COOKIES = 'cookies.txt'
+COOKIES_FILE = 'cookies.txt'
 SESSION = requests.Session()
 
 
@@ -34,8 +34,11 @@ def process_message(message):
         make_auth_request()
     elif message.strip().lower() == 'logout':
         make_logout_request()
+    elif message.strip().lower() == 'q':
+        return False
     else:
         show_usage()
+    return True
 
 
 def show_usage():
@@ -47,30 +50,13 @@ def show_usage():
 def main():
     show_usage()
     try:
-        while True:
-            process_message(raw_input('your message: '))
+        while process_message(raw_input('your message: ')):
+            pass
     except (KeyboardInterrupt, EOFError):
         print
 
 
-def load_cookies_from_lwp(filename):
-    lwp_cookiejar = cookielib.LWPCookieJar()
-    lwp_cookiejar.load(filename, ignore_discard=True)
-    return lwp_cookiejar
-
-
-def save_cookies_lwp(cookiejar, filename):
-    lwp_cookiejar = cookielib.LWPCookieJar()
-    for c in cookiejar:
-        args = dict(vars(c).items())
-        args['rest'] = args['_rest']
-        del args['_rest']
-        c = cookielib.Cookie(**args)
-        lwp_cookiejar.set_cookie(c)
-    lwp_cookiejar.save(filename, ignore_discard=True)
-
-
 if __name__ == "__main__":
-    SESSION.cookies = load_cookies_from_lwp(COOKIES)
+    SESSION.cookies = load_cookies(SESSION.cookies, COOKIES_FILE)
     main()
-    save_cookies_lwp(SESSION.cookies, COOKIES)
+    save_cookies(SESSION.cookies, COOKIES_FILE)
