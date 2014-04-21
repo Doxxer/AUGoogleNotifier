@@ -1,1 +1,2 @@
 #LWP-Cookies-2.0
+Set-Cookie3: session="eyJfc2lkIjoiV0V4SEloWHE0N3FwZFdjWW5LUFpVTSJ9|1398085130|0c674925273164b7cc7309564111f4e98c3ed2bd"; path="/"; domain="localhost.local"; path_spec; discard; version=0
