@@ -1,16 +1,19 @@
 #!/usr/bin/env python
+# coding=utf-8
+import json
 
 from CookieManager import load_cookies, save_cookies
-
 from OneRequestWebServer import grab_authorization_code
 import requests
 
-# APPSERVER = "http://localhost:9080"
+# APPSERVER = "http://localhost:10080"
 APPSERVER = "https://spbau-notifier-583.appspot.com"
 
 LOGIN_ADDRESS = APPSERVER + "/login"
 LOGOUT_ADDRESS = APPSERVER + "/logout"
+SUBSCRIBE_ADDRESS = APPSERVER + "/subscribe"
 AUTH_CALLBACK_ADDRESS = APPSERVER + "/oauth2callback"
+GET_CHANGES_ADDRESS = APPSERVER + "/get_changes"
 COOKIES_FILE = 'cookies.txt'
 SESSION = requests.Session()
 
@@ -31,21 +34,47 @@ def make_logout_request():
     print response.status_code, response.reason, response.text
 
 
+def make_subscribe_request():
+    response = SESSION.post(SUBSCRIBE_ADDRESS).text
+    print response
+
+
+def make_get_changes_request():
+    response = SESSION.post(GET_CHANGES_ADDRESS).text
+    response = json.loads(response)['changes_list']
+
+    if not response:
+        print "no changes"
+    else:
+        for k, change in enumerate(response):
+            print "--------- ", k
+            assert isinstance(change, dict)
+            for k in change.keys():
+                print k, change[k]
+
+
 def process_message(message):
-    if message.strip().lower() == 'auth':
+    if message.strip().lower() == 'a':
         make_auth_request()
-    elif message.strip().lower() == 'logout':
+    elif message.strip().lower() == 'l':
         make_logout_request()
+    elif message.strip().lower() == 's':
+        make_subscribe_request()
+    elif message.strip().lower() == 'g':
+        make_get_changes_request()
     elif message.strip().lower() == 'q':
         return False
     else:
         show_usage()
     return True
 
+
 def show_usage():
-    print "Usage: auth | logout | q"
-    print "auth -- try to authenticate. If success it returns \"OK %USERNAME%\""
-    print "logout -- logout"
+    print "Usage: a | l | s | g | q"
+    print "a -- try to authenticate. If success it returns \"OK %USERNAME%\""
+    print "l -- logout"
+    print "s -- Подписаться на изменения. Нужно быть авторизованным"
+    print "g -- получить все изменения с сервера. Нужно быть авторизованным"
     print "q -- quit"
 
 
