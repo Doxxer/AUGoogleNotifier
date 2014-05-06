@@ -1,3 +1,5 @@
+import logging
+
 import webapp2
 from webapp2_extras import sessions
 
@@ -30,10 +32,8 @@ class BaseHandler(webapp2.RequestHandler):
         """
         Delete credential in session data
         """
-        if 'credential' in self.session:
-            del self.session['credential']
-            del self.session['id']
-            del self.session['name']
+        for k in list(self.session.keys()):
+            del self.session[k]
 
     @staticmethod
     def create_login_url():

@@ -3,16 +3,15 @@ import os
 
 import jinja2
 import webapp2
+from handlers.GetChangesHandler import GetChangesHandler
 
+from handlers.NotificationCallbackHandler import NotificationCallbackHandler
 from oauth2client.clientsecrets import loadfile
-
 from oauth2client.client import flow_from_clientsecrets
-
 from handlers.GoogleVerificationHandler import GoogleVerificationHandler
-
 from handlers.LoginHandler import LoginHandler
 from handlers.LogoutHandler import LogoutHandler
-
+from handlers.SubscribeHandler import SubscribeHandler
 from handlers.MainPageHandler import MainPageHandler
 from handlers.OAuth2CallbackHandler import OAuth2CallbackHandler
 
@@ -38,6 +37,9 @@ handler = webapp2.WSGIApplication([
                                       ('/', MainPageHandler),
                                       ('/googled2ac93807b24db11.html', GoogleVerificationHandler),
                                       ('/oauth2callback', OAuth2CallbackHandler),
+                                      ('/notificationcallback', NotificationCallbackHandler),
+                                      ('/subscribe', SubscribeHandler),
+                                      ('/get_changes', GetChangesHandler),
                                       ('/login', LoginHandler),
                                       ('/logout', LogoutHandler),
                                   ], config=webApp2Config, debug=True)

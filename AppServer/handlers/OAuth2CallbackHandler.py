@@ -1,7 +1,7 @@
-import logging
 import pickle
 
 import httplib2
+
 import view
 from apiclient.discovery import build
 from oauth2client.client import FlowExchangeError
@@ -30,14 +30,13 @@ class OAuth2CallbackHandler(BaseHandler):
         except FlowExchangeError:
             pass
         else:
-            self.session['credential'] = pickle.dumps(credential)
-            self.session['mac_address'] = self.get_value_from_cookie('mac_address')
-
             # Retrieve basic information about the user
             users_service = build('oauth2', 'v2', http=credential.authorize(httplib2.Http()))
             user_information = users_service.userinfo().get().execute()
-            logging.error(user_information)
-            self.session['id'] = user_information['id']
+
+            self.session['credential'] = pickle.dumps(credential)
+            self.session['mac_address'] = self.get_value_from_cookie('mac_address')
+            self.session['user_id'] = user_information['id']
             self.session['name'] = user_information['name']
             self.response.set_status(200)
             self.response.write("OK " + self.session['name'])
