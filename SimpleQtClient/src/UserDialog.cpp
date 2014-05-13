@@ -1,5 +1,6 @@
 #include "UserDialog.hpp"
 #include "Authorizer.hpp"
+#include "defs.hpp"
 
 #include <QTimer>
 
@@ -8,7 +9,7 @@ UserDialog::UserDialog(QObject *parent):
     QObject(parent),
     m_cin(stdin),
     m_cout(stdout),
-    m_networkManager(new NetworkManager(this))
+    m_networkManager(new NetworkManager(APPSERVER, COOKIES, this))
 {
     Authorizer *authorizer = new Authorizer(m_networkManager, this);
     connect(authorizer, SIGNAL(result(QString const &)),

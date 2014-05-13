@@ -4,16 +4,16 @@
 #include <QUrl>
 
 
-QString const NetworkManager::APPSERVER("https://spbau-notifier-583.appspot.com/");
-QString const NetworkManager::COOKIES("cookies.dat");
-
-
-NetworkManager::NetworkManager(QObject *parent):
+NetworkManager::NetworkManager(QString const &appserver,
+                               QString const &cookies,
+                               QObject *parent):
     QObject(parent),
+    m_appserver(appserver),
+    m_cookies(cookies),
     m_cookieJar(new CookieJar()),
     m_nam(new QNetworkAccessManager(this))
 {
-    m_cookieJar->load(COOKIES);
+    m_cookieJar->load(m_cookies);
     m_nam->setCookieJar(m_cookieJar);
 
     connect(m_nam, SIGNAL(finished(QNetworkReply *)),
@@ -23,7 +23,7 @@ NetworkManager::NetworkManager(QObject *parent):
 
 NetworkManager::~NetworkManager()
 {
-    m_cookieJar->save(COOKIES);
+    m_cookieJar->save(m_cookies);
 }
 
 
@@ -51,7 +51,7 @@ void NetworkManager::processFinish(QNetworkReply *reply)
         ok = false;
         msg = "Network error";
     }
-    m_cookieJar->save(COOKIES); // !!!
+    m_cookieJar->save(m_cookies); // !!!
     reply->deleteLater();
     emit response(ok, msg);
 }
@@ -59,7 +59,7 @@ void NetworkManager::processFinish(QNetworkReply *reply)
 
 QNetworkRequest const NetworkManager::createRequest(QString const &path) const
 {
-    QUrl url(APPSERVER + path);
+    QUrl url(m_appserver + path);
     QNetworkRequest request(url);
     request.setHeader(QNetworkRequest::ContentTypeHeader,
                       "application/x-www-form-urlencoded");
