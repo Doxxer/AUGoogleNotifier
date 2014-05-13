@@ -52,7 +52,7 @@ void UserDialog::readCommand()
 void UserDialog::writeResult(QString const &msg)
 {
     m_cout << msg << endl;
-    startReading();
+    //startReading();
 }
 
 
@@ -65,13 +65,13 @@ void UserDialog::processError(QString const &errMsg)
 
 void UserDialog::showUsage()
 {
-    m_cout <<  "Usage: a | l | s | g | q\n"
-           <<  "a -- try to authenticate\n"
-           <<  "l -- logout\n"
-           <<  "s -- subscribe\n"
-           <<  "g -- get changes\n"
-           <<  "q -- quit\n"
-           << endl;
+    m_cout << "Usage: a | l | s | g | q\n"
+              "a -- try to authenticate\n"
+              "l -- logout\n"
+              "s -- subscribe\n"
+              "g -- get changes\n"
+              "q -- quit\n";
+    m_cout << endl;
 }
 
 
