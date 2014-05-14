@@ -44,6 +44,7 @@ class SubscribeHandler(BaseHandler):
             self.response.write('Request exceeded its deadline. Please try again')
         else:
             logging.warning("Subscribed ok")
+            logging.warning(result)
             self.session['notification_id'] = result['id']
             self.session['resource_id'] = result['resourceId']
             self.response.set_status(200)
