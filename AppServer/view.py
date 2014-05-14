@@ -6,6 +6,7 @@ import webapp2
 from handlers.GetChangesHandler import GetChangesHandler
 
 from handlers.NotificationCallbackHandler import NotificationCallbackHandler
+from handlers.UnsubscribeHandler import UnsubscribeHandler
 from oauth2client.clientsecrets import loadfile
 from oauth2client.client import flow_from_clientsecrets
 from handlers.GoogleVerificationHandler import GoogleVerificationHandler
@@ -39,6 +40,7 @@ handler = webapp2.WSGIApplication([
                                       ('/oauth2callback', OAuth2CallbackHandler),
                                       ('/notificationcallback', NotificationCallbackHandler),
                                       ('/subscribe', SubscribeHandler),
+                                      ('/unsubscribe', UnsubscribeHandler),
                                       ('/get_changes', GetChangesHandler),
                                       ('/login', LoginHandler),
                                       ('/logout', LogoutHandler),

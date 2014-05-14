@@ -1,4 +1,5 @@
 import logging
+
 from apiclient.errors import HttpError
 
 
@@ -56,3 +57,20 @@ def RetrieveChange(service, change_id):
     except HttpError, error:
         logging.error(error)
     return result
+
+
+def StopChannel(service, channel_id, resource_id):
+    """Stop watching to a specific channel.
+
+    Args:
+      service: Drive API service instance.
+      channel_id: ID of the channel to stop.
+      resource_id: Resource ID of the channel to stop.
+    Raises:
+      apiclient.errors.HttpError: if http request to create channel fails.
+    """
+    body = {
+        'id': channel_id,
+        'resourceId': resource_id
+    }
+    service.channels().stop(body=body).execute()

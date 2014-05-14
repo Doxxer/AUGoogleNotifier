@@ -45,4 +45,5 @@ class SubscribeHandler(BaseHandler):
         else:
             logging.warning("Subscribed ok")
             self.session['notification_id'] = result['id']
+            self.session['resource_id'] = result['resourceId']
             self.response.set_status(200)
