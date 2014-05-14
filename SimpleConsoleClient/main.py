@@ -36,7 +36,7 @@ def make_logout_request():
 
 def make_subscribe_request():
     response = SESSION.post(SUBSCRIBE_ADDRESS).text
-    print response
+    print response.status_code, response.reason, response.text
 
 
 def make_get_changes_request():
