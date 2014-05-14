@@ -1,3 +1,4 @@
+#include "GetRequester.hpp"
 #include "UserDialog.hpp"
 #include "Authorizer.hpp"
 #include "defs.hpp"
@@ -11,12 +12,9 @@ UserDialog::UserDialog(QObject *parent):
     m_cout(stdout),
     m_networkManager(new NetworkManager(APPSERVER, COOKIES, this))
 {
-    Authorizer *authorizer = new Authorizer(m_networkManager, this);
-    connect(authorizer, SIGNAL(result(QString const &)),
-            this, SLOT(writeResult(QString const &)));
-    connect(authorizer, SIGNAL(error(QString const &)),
-            this, SLOT(processError(QString const &)));
-    m_processors["a"] = authorizer;
+    addCommandProcessor(new Authorizer(m_networkManager, this), "a");
+    addCommandProcessor(new GetRequester(LOGOUT_PATH, m_networkManager, this),
+                        "l");
 }
 
 
@@ -78,4 +76,15 @@ void UserDialog::showUsage()
 void UserDialog::startReading()
 {
     QTimer::singleShot(0, this, SLOT(readCommand()));
+}
+
+
+void UserDialog::addCommandProcessor(CommandProcessor *processor,
+                                     QString const &cmd)
+{
+    connect(processor, SIGNAL(result(QString const &)),
+            this, SLOT(writeResult(QString const &)));
+    connect(processor, SIGNAL(error(QString const &)),
+            this, SLOT(processError(QString const &)));
+    m_processors[cmd] = processor;
 }

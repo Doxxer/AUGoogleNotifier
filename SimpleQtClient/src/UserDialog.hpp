@@ -33,6 +33,7 @@ private:
 
     void showUsage();
     void startReading();
+    void addCommandProcessor(CommandProcessor *processor, QString const &cmd);
 
     QTextStream m_cin;
     QTextStream m_cout;

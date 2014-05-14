@@ -13,11 +13,13 @@ VPATH += src
 HEADERS += Authorizer.hpp \
            CommandProcessor.hpp \
            CookieJar.hpp \
+           GetRequester.hpp \
            OneShotHttpServer.hpp \
            NetworkManager.hpp \
            UserDialog.hpp
 SOURCES += Authorizer.cpp \
            CookieJar.cpp \
+           GetRequester.cpp \
            OneShotHttpServer.cpp \
            main.cpp \
            NetworkManager.cpp \
