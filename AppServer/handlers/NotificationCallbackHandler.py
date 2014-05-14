@@ -29,7 +29,7 @@ class NotificationCallbackHandler(BaseHandler):
         logging.warning(user_id)
         logging.warning(change_id)
 
-        entity = GoogleDocsChange.get_or_insert(str(user_id), user_id=user_id)
+        entity = GoogleDocsChange.get_or_insert('user_id', user_id=user_id)
         entity.change_ids.append(change_id)
         entity.save()
         self.response.set_status(200)
