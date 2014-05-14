@@ -16,7 +16,9 @@ class LoginHandler(BaseHandler):
         POST request handling method.
         TODO ???
         """
-        logging.error(self.session)
+        logging.info(self.session)
+        logging.info(self.request.headers)
+        logging.info(self.request)
 
         if not self.user_logged_in():
             self.response.write(self.compose_auth_url())
