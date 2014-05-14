@@ -52,7 +52,7 @@ void UserDialog::readCommand()
 void UserDialog::writeResult(QString const &msg)
 {
     m_cout << msg << endl;
-    //startReading();
+    startReading();
 }
 
 
