@@ -4,8 +4,6 @@
 #include <QNetworkAccessManager>
 #include <QNetworkRequest>
 #include <QNetworkReply>
-#include <QString>
-#include <QObject>
 
 #include "CookieJar.hpp"
 

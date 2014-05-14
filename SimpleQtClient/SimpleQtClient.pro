@@ -1,8 +1,7 @@
 TEMPLATE = app
 
-QT += core network
-QT -= gui
-CONFIG += debug_and_release console
+QT += core gui widgets network
+CONFIG += debug_and_release
 
 TARGET = client
 
@@ -14,10 +13,12 @@ VPATH += src
 HEADERS += Authorizer.hpp \
            CommandProcessor.hpp \
            CookieJar.hpp \
+           OneShotHttpServer.hpp \
            NetworkManager.hpp \
            UserDialog.hpp
 SOURCES += Authorizer.cpp \
            CookieJar.cpp \
+           OneShotHttpServer.cpp \
            main.cpp \
            NetworkManager.cpp \
            UserDialog.cpp

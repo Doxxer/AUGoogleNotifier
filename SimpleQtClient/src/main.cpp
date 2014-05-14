@@ -1,5 +1,5 @@
-#include <QCoreApplication>
 #include <QScopedPointer>
+#include <QApplication>
 #include <QTimer>
 
 #include "UserDialog.hpp"
@@ -7,7 +7,7 @@
 
 int main(int argc, char **argv)
 {
-    QCoreApplication app(argc, argv);
+    QApplication app(argc, argv);
     QScopedPointer<UserDialog> ud(new UserDialog());
 
     QObject::connect(ud.data(), SIGNAL(quit()), &app, SLOT(quit()));

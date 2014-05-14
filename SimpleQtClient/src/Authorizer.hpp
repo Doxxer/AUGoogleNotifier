@@ -14,7 +14,10 @@ public:
     void process();
 
 private slots:
-    void processResponse(bool ok, QString const &msg);
+    void processLoginResponse(bool ok, QString const &msg);
+    void processOAuthResponse(bool ok, QString const &msg);
+    void processServerResult(QString const &msg);
+    void processServerError(QString const &errMsg);
 
 private:
     NetworkManager *m_networkManager;

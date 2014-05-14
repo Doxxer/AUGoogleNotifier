@@ -1,7 +1,7 @@
 #include "NetworkManager.hpp"
 
-#include <QDebug>
-#include <QUrl>
+#include <QNetworkCookie>
+#include <QUuid>
 
 
 NetworkManager::NetworkManager(QString const &appserver,
@@ -13,7 +13,12 @@ NetworkManager::NetworkManager(QString const &appserver,
     m_cookieJar(new CookieJar()),
     m_nam(new QNetworkAccessManager(this))
 {
-    m_cookieJar->load(m_cookies);
+    if (!m_cookieJar->load(m_cookies)) {
+        QNetworkCookie cookie("mac_address", // !!! rename
+                              QUuid::createUuid().toByteArray());
+        m_cookieJar->setCookiesFromUrl(QList<QNetworkCookie>() << cookie,
+                                       m_appserver);
+    }
     m_nam->setCookieJar(m_cookieJar);
 
     connect(m_nam, SIGNAL(finished(QNetworkReply *)),
@@ -49,7 +54,7 @@ void NetworkManager::processFinish(QNetworkReply *reply)
         msg = QString::fromUtf8(reply->readAll());
     } else {
         ok = false;
-        msg = "Network error";
+        msg = reply->errorString();
     }
     m_cookieJar->save(m_cookies); // !!!
     reply->deleteLater();

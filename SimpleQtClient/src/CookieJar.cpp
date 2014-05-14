@@ -2,7 +2,6 @@
 
 #include <QNetworkCookie>
 #include <QDataStream>
-#include <QList>
 #include <QFile>
 
 
