@@ -1,5 +1,6 @@
 #include "UserDialog.hpp"
 #include "Authorizer.hpp"
+#include "Subscriber.hpp"
 #include "Logouter.hpp"
 #include "defs.hpp"
 
@@ -14,6 +15,7 @@ UserDialog::UserDialog(QObject *parent):
 {
     addCommandProcessor(new Authorizer(m_networkManager, this), "a");
     addCommandProcessor(new Logouter(m_networkManager, this), "l");
+    addCommandProcessor(new Subscriber(m_networkManager, this), "s");
 }
 
 
