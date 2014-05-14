@@ -16,7 +16,7 @@ void Authorizer::process()
 {
     connect(m_networkManager, SIGNAL(response(bool, QString const &)),
             this, SLOT(processLoginResponse(bool, QString const &)));
-    m_networkManager->post("login");
+    m_networkManager->post(LOGIN_PATH);
 }
 
 
@@ -61,7 +61,7 @@ void Authorizer::processServerResult(QString const &msg)
     sender()->deleteLater();
 
     QUrl url(msg);
-    url.setPath("oauth2callback");
+    url.setPath(AUTH_CALLBACK_PATH);
 
     connect(m_networkManager, SIGNAL(response(bool, QString const &)),
             this, SLOT(processOAuthResponse(bool, QString const &)));
