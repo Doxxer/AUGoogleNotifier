@@ -1,6 +1,6 @@
-#include "GetRequester.hpp"
 #include "UserDialog.hpp"
 #include "Authorizer.hpp"
+#include "Logouter.hpp"
 #include "defs.hpp"
 
 #include <QTimer>
@@ -13,8 +13,7 @@ UserDialog::UserDialog(QObject *parent):
     m_networkManager(new NetworkManager(APPSERVER, COOKIES, this))
 {
     addCommandProcessor(new Authorizer(m_networkManager, this), "a");
-    addCommandProcessor(new GetRequester(LOGOUT_PATH, m_networkManager, this),
-                        "l");
+    addCommandProcessor(new Logouter(m_networkManager, this), "l");
 }
 
 
