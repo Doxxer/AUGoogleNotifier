@@ -12,3 +12,4 @@
 *.class
 cookies.*
 client_secrets*
+*.stash
