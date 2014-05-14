@@ -12,6 +12,7 @@ APPSERVER = "https://spbau-notifier-583.appspot.com"
 LOGIN_ADDRESS = APPSERVER + "/login"
 LOGOUT_ADDRESS = APPSERVER + "/logout"
 SUBSCRIBE_ADDRESS = APPSERVER + "/subscribe"
+UNSUBSCRIBE_ADDRESS = APPSERVER + "/unsubscribe"
 AUTH_CALLBACK_ADDRESS = APPSERVER + "/oauth2callback"
 GET_CHANGES_ADDRESS = APPSERVER + "/get_changes"
 COOKIES_FILE = 'cookies.txt'
@@ -35,7 +36,12 @@ def make_logout_request():
 
 
 def make_subscribe_request():
-    response = SESSION.post(SUBSCRIBE_ADDRESS).text
+    response = SESSION.post(SUBSCRIBE_ADDRESS)
+    print response.status_code, response.reason, response.text
+
+
+def make_unsubscribe_request():
+    response = SESSION.post(UNSUBSCRIBE_ADDRESS)
     print response.status_code, response.reason, response.text
 
 
@@ -62,6 +68,8 @@ def process_message(message):
         make_subscribe_request()
     elif message.strip().lower() == 'g':
         make_get_changes_request()
+    elif message.strip().lower() == 'u':
+        make_unsubscribe_request()
     elif message.strip().lower() == 'q':
         return False
     else:
@@ -70,11 +78,12 @@ def process_message(message):
 
 
 def show_usage():
-    print "Usage: a | l | s | g | q"
+    print "Usage: a | l | s | g | u | q"
     print "a -- try to authenticate. If success it returns \"OK %USERNAME%\""
     print "l -- logout"
     print "s -- Подписаться на изменения. Нужно быть авторизованным"
     print "g -- получить все изменения с сервера. Нужно быть авторизованным"
+    print "u -- отписаться от изменений. Нужно быть авторизованным"
     print "q -- quit"
 
 
