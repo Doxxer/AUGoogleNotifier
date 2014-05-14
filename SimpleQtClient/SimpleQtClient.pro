@@ -12,6 +12,7 @@ VPATH += src
 
 HEADERS += Authorizer.hpp \
            CommandProcessor.hpp \
+           ChangesGetter.hpp \
            CookieJar.hpp \
            Logouter.hpp \
            NetworkManager.hpp \
@@ -19,6 +20,7 @@ HEADERS += Authorizer.hpp \
            Subscriber.hpp \
            UserDialog.hpp
 SOURCES += Authorizer.cpp \
+           ChangesGetter.cpp \
            CookieJar.cpp \
            Logouter.cpp \
            main.cpp \
