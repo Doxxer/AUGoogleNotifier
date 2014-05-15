@@ -1,4 +1,5 @@
 #include "ChangesGetter.hpp"
+#include "Unsubscriber.hpp"
 #include "UserDialog.hpp"
 #include "Authorizer.hpp"
 #include "Subscriber.hpp"
@@ -17,6 +18,7 @@ UserDialog::UserDialog(QObject *parent):
     addCommandProcessor(new Authorizer(m_networkManager, this), "a");
     addCommandProcessor(new Logouter(m_networkManager, this), "l");
     addCommandProcessor(new Subscriber(m_networkManager, this), "s");
+    addCommandProcessor(new Unsubscriber(m_networkManager, this), "u");
     addCommandProcessor(new ChangesGetter(m_networkManager, this), "g");
 }
 
@@ -71,6 +73,7 @@ void UserDialog::showUsage()
               "l -- logout\n"
               "s -- subscribe\n"
               "g -- get changes\n"
+              "u -- unsubscribe\n"
               "q -- quit\n";
     m_cout << endl;
 }

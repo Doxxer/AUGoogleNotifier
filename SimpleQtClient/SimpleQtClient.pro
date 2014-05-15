@@ -19,6 +19,7 @@ HEADERS += Authorizer.hpp \
            OneShotHttpServer.hpp \
            Requester.hpp \
            Subscriber.hpp \
+           Unsubscriber.hpp \
            UserDialog.hpp
 SOURCES += Authorizer.cpp \
            ChangesGetter.cpp \
@@ -29,4 +30,5 @@ SOURCES += Authorizer.cpp \
            OneShotHttpServer.cpp \
            Requester.cpp \
            Subscriber.cpp \
+           Unsubscriber.cpp \
            UserDialog.cpp
