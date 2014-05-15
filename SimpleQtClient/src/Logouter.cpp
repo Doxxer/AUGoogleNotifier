@@ -3,26 +3,12 @@
 
 
 Logouter::Logouter(NetworkManager *networkManager, QObject *parent):
-    CommandProcessor(parent),
-    m_networkManager(networkManager)
+    Requester(Requester::GET, LOGOUT_PATH, networkManager, parent)
 {
 }
 
 
-void Logouter::process()
+QString const Logouter::prepareResult(QString const &) const
 {
-    connect(m_networkManager, SIGNAL(response(bool, QString const &)),
-            this, SLOT(processResponse(bool, QString const &)));
-    m_networkManager->get(LOGOUT_PATH);
-}
-
-
-void Logouter::processResponse(bool ok, QString const &msg)
-{
-    disconnect(m_networkManager, SIGNAL(response(bool, QString const &)),
-               this, SLOT(processResponse(bool, QString const &)));
-    if (ok)
-        emit result("OK");
-    else
-        emit error(msg);
+    return "OK";
 }

@@ -17,6 +17,7 @@ HEADERS += Authorizer.hpp \
            Logouter.hpp \
            NetworkManager.hpp \
            OneShotHttpServer.hpp \
+           Requester.hpp \
            Subscriber.hpp \
            UserDialog.hpp
 SOURCES += Authorizer.cpp \
@@ -26,5 +27,6 @@ SOURCES += Authorizer.cpp \
            main.cpp \
            NetworkManager.cpp \
            OneShotHttpServer.cpp \
+           Requester.cpp \
            Subscriber.cpp \
            UserDialog.cpp

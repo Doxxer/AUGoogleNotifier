@@ -1,23 +1,18 @@
 #ifndef SUBSCRIBER_H
 #define SUBSCRIBER_H
 
-#include "CommandProcessor.hpp"
-#include "NetworkManager.hpp"
+#include "Requester.hpp"
 
 
-class Subscriber: public CommandProcessor
+class Subscriber: public Requester
 {
     Q_OBJECT
 
 public:
     Subscriber(NetworkManager *networkManager, QObject *parent = 0);
-    void process();
 
-private slots:
-    void processResponse(bool ok, QString const &msg);
-
-private:
-    NetworkManager *m_networkManager;
+protected:
+    QString const prepareResult(QString const &msg) const;
 };
 
 

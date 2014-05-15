@@ -1,23 +1,15 @@
 #ifndef CHANGESGETTER_H
 #define CHANGESGETTER_H
 
-#include "CommandProcessor.hpp"
-#include "NetworkManager.hpp"
+#include "Requester.hpp"
 
 
-class ChangesGetter: public CommandProcessor
+class ChangesGetter: public Requester
 {
     Q_OBJECT
 
 public:
     ChangesGetter(NetworkManager *networkManager, QObject *parent = 0);
-    void process();
-
-private slots:
-    void processResponse(bool ok, QString const &msg);
-
-private:
-    NetworkManager *m_networkManager;
 };
 
 
