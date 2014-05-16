@@ -62,7 +62,7 @@ void UserDialog::writeResult(QString const &msg)
 void UserDialog::processError(QString const &errMsg)
 {
     m_cout << errMsg << endl;
-    emit quit();
+    startReading();
 }
 
 
