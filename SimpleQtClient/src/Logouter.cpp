@@ -3,7 +3,7 @@
 
 
 Logouter::Logouter(NetworkManager *networkManager, QObject *parent):
-    Requester(Requester::GET, LOGOUT_PATH, networkManager, parent)
+    Requester(Requester::POST, LOGOUT_PATH, networkManager, parent)
 {
 }
 
