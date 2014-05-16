@@ -51,14 +51,15 @@ void OneShotHttpServer::readData()
     QTextStream out(m_tcpSocket);
     out << "HTTP/1.1 200 OK\n"
            "Content-Type: text/html; charset=\"utf-8\"\n"
-           "\n";
+           "\n"
+           "<!DOCTYPE html>\n<html>";
     if (ok) {
-        out << "<html><script>window.close();</script>"
-               "<body><p>Ok. Please, close the window</p></body></html>";
+        out << "<body onload=\"window.open('','_self','').close();\">"
+               "<p>Ok. Please, close the window</p></body>";
     } else {
-        out << "<html><body><p>Authorization failed</p></body></html>";
+        out << "<body><p>Authorization failed</p></body>";
     }
-    out << flush;
+    out << "</html>" << flush;
 
     m_tcpSocket->waitForBytesWritten();
     disconnect(m_tcpSocket, SIGNAL(disconnected()), this, SLOT(discard()));
