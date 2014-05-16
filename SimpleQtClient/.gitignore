@@ -1,5 +1,4 @@
+Makefile*
 bin
 moc
-Makefile*
-client
-cookies.dat
+obj

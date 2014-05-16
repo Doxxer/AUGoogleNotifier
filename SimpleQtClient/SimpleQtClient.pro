@@ -1,13 +1,17 @@
 TEMPLATE = app
 
-QT += core gui widgets network
+QT += core widgets network
 CONFIG += debug_and_release
 
-TARGET = client
-
-OBJECTS_DIR = bin
+CONFIG (debug, debug | release) {
+    TARGET = client_debug
+    OBJECTS_DIR = obj/debug
+} else {
+    TARGET = client
+    OBJECTS_DIR = obj/release
+}
 MOC_DIR = moc
-DESTDIR = .
+DESTDIR = bin
 VPATH += src
 
 HEADERS += Authorizer.hpp \
