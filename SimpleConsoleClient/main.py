@@ -31,7 +31,7 @@ def make_auth_request():
 
 
 def make_logout_request():
-    response = SESSION.get(LOGOUT_ADDRESS)
+    response = SESSION.post(LOGOUT_ADDRESS)
     print response.status_code, response.reason, response.text
 
 
