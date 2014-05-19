@@ -16,8 +16,9 @@ VPATH += src src/core src/console src/gui
 INCLUDEPATH += src/core src/console src/gui
 
 HEADERS += Authorizer.hpp \
-           CommandProcessor.hpp \
            ChangesGetter.hpp \
+           Controller.hpp \
+           CommandProcessor.hpp \
            CookieJar.hpp \
            Logouter.hpp \
            NetworkManager.hpp \
@@ -28,6 +29,7 @@ HEADERS += Authorizer.hpp \
            UserDialog.hpp
 SOURCES += Authorizer.cpp \
            ChangesGetter.cpp \
+           Controller.cpp \
            CookieJar.cpp \
            Logouter.cpp \
            main.cpp \

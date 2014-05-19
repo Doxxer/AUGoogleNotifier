@@ -2,7 +2,7 @@
 #include <QApplication>
 #include <QTimer>
 
-#include "UserDialog.hpp"
+#include "Controller.hpp"
 
 
 int main(int argc, char **argv)
@@ -13,7 +13,7 @@ int main(int argc, char **argv)
     QApplication::setOrganizationDomain("mit.spbau.ru");
     QApplication::setApplicationName("AUGoogleNotifier");
 
-    QScopedPointer<UserDialog> ud(new UserDialog());
+    QScopedPointer<Controller> ud(new Controller());
     QObject::connect(ud.data(), SIGNAL(quit()), &app, SLOT(quit()));
     QTimer::singleShot(0, ud.data(), SLOT(run()));
 
