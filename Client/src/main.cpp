@@ -14,8 +14,6 @@ int main(int argc, char **argv)
     QApplication::setApplicationName("AUGoogleNotifier");
 
     QScopedPointer<Controller> ud(new Controller());
-    QObject::connect(ud.data(), SIGNAL(quit()), &app, SLOT(quit()));
-    QTimer::singleShot(0, ud.data(), SLOT(run()));
 
     return app.exec();
 }

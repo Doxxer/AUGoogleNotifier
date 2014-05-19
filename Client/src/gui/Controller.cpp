@@ -13,18 +13,6 @@ Controller::Controller(QObject *parent):
 }
 
 
-void Controller::run()
-{
-    ;
-}
-
-
-void Controller::emitQuit()
-{
-    emit quit();
-}
-
-
 void Controller::createGui()
 {
     m_trayIcon = new QSystemTrayIcon(
@@ -34,11 +22,11 @@ void Controller::createGui()
     QMenu *menu = new QMenu();
 
     QAction *quitAction = new QAction("&Exit", menu);
-    connect(quitAction, SIGNAL(triggered()), this, SLOT(emitQuit()));
+    connect(quitAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     menu->addAction(quitAction);
 
     QAction *testAction = new QAction("Test", menu);
-    connect(testAction, SIGNAL(triggered()), this, SLOT(emitQuit()));
+    connect(testAction, SIGNAL(triggered()), qApp, SLOT(quit()));
     menu->addAction(testAction);
 
     m_trayIcon->setContextMenu(menu);
