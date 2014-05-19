@@ -15,9 +15,7 @@ Controller::Controller(QObject *parent):
 
 void Controller::createGui()
 {
-    m_trayIcon = new QSystemTrayIcon(
-            QIcon(QApplication::applicationDirPath() + "/icon.png"),
-            this);
+    m_trayIcon = new QSystemTrayIcon(QIcon(":/resources/icon.png"), this);
 
     QMenu *menu = new QMenu();
 

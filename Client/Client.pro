@@ -6,12 +6,17 @@ CONFIG += debug_and_release
 CONFIG (debug, debug | release) {
     TARGET = client_debug
     OBJECTS_DIR = obj/debug
+    RCC_DIR = rcc/debug
 } else {
     TARGET = client
     OBJECTS_DIR = obj/release
+    RCC_DIR = rcc/release
 }
 MOC_DIR = moc
 DESTDIR = bin
+
+RESOURCES = Client.qrc
+
 VPATH += src src/core src/console src/gui
 INCLUDEPATH += src/core src/console src/gui
 
