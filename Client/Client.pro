@@ -5,14 +5,14 @@ CONFIG += debug_and_release
 
 CONFIG (debug, debug | release) {
     TARGET = client_debug
-    OBJECTS_DIR = obj/debug
-    RCC_DIR = rcc/debug
+    OBJECTS_DIR = build/obj/debug
+    RCC_DIR = build/rcc/debug
 } else {
     TARGET = client
-    OBJECTS_DIR = obj/release
-    RCC_DIR = rcc/release
+    OBJECTS_DIR = build/obj/release
+    RCC_DIR = build/rcc/release
 }
-MOC_DIR = moc
+MOC_DIR = build/moc
 DESTDIR = bin
 
 RESOURCES = Client.qrc
