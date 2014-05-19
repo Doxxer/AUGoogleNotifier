@@ -23,4 +23,4 @@ class SubscribeHandler(BaseHandler):
             self.response.write("Error occurred while subscribing: " + result['error_msg'])
         else:
             self.response.set_status(200)
-            self.response.write("OK")
+            self.response.write("Subscribed successfully")

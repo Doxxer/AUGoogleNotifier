@@ -88,7 +88,7 @@ class BaseHandler(webapp2.RequestHandler):
                 logging.warning('DeadlineExceededError/HTTPException occurred while subscribing push notifications')
                 logging.warning(error)
                 result['success'] = False
-                result['error_code'] = 510
+                result['error_code'] = 504
                 result['error_msg'] = "Request exceeded its deadline. Please try again"
             else:
                 result['success'] = True
@@ -143,7 +143,7 @@ class BaseHandler(webapp2.RequestHandler):
                 logging.warning('DeadlineExceededError/HTTPException occurred while subscribing push notifications')
                 logging.warning(error)
                 result['success'] = False
-                result['error_code'] = 510
+                result['error_code'] = 504
                 result['error_msg'] = ('Request exceeded its deadline.'
                                        'Please try again')
             else:
