@@ -12,7 +12,8 @@ CONFIG (debug, debug | release) {
 }
 MOC_DIR = moc
 DESTDIR = bin
-VPATH += src
+VPATH += src src/core src/console src/gui
+INCLUDEPATH += src/core src/console src/gui
 
 HEADERS += Authorizer.hpp \
            CommandProcessor.hpp \
