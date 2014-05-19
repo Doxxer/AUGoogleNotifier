@@ -10,10 +10,11 @@ class UnsubscribeHandler(BaseHandler):
         """
         POST request handling method.
 
-        Unsubscribe from push notifications.
+        unsubscribe from push notifications.
         """
-        result = self.Unsubscribe()
-        logging.warning(result)
+        result = self.unsubscribe()
+        logging.debug("unsubscribe result:")
+        logging.debug(result)
 
         if not result['success']:
             self.response.set_status(result['error_code'])
