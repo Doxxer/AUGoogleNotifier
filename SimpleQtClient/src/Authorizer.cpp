@@ -29,7 +29,8 @@ void Authorizer::processLoginResponse(bool ok, QString const &msg)
         emit error(msg);
         return;
     }
-    if (msg.split(" ").first() == "OK") {
+    if (msg.trimmed().startsWith("authentication successful",
+                                 Qt::CaseInsensitive)) {
         emit result(msg);
         return;
     }
