@@ -10,9 +10,10 @@ from webapp2_extras import sessions
 
 from apiclient import errors
 from handlers.Errors import CookieError
-from push import StopChannel
+from push import stop_channel
 import view
-from push import WatchChange
+from push import watch_change
+
 
 
 # noinspection PyProtectedMember,PyAttributeOutsideInit
@@ -70,8 +71,12 @@ class BaseHandler(webapp2.RequestHandler):
 
         if not credential.access_token_expired and hasattr(self, 'drive_service'):
             try:
-                channel = WatchChange(self.drive_service, notification_id, channel_type,
-                                      address, channel_params=params, channel_token=token_string)
+                channel = watch_change(self.drive_service,
+                                       notification_id,
+                                       channel_type,
+                                       address,
+                                       channel_params=params,
+                                       channel_token=token_string)
 
             except errors.HttpError, error:
                 logging.warning('HttpError occurred while subscribing push notifications')
@@ -127,7 +132,7 @@ class BaseHandler(webapp2.RequestHandler):
         credential = pickle.loads(self.session.get('credential'))
         if not credential.access_token_expired and hasattr(self, 'drive_service'):
             try:
-                StopChannel(self.drive_service, notification_id, resource_id)
+                stop_channel(self.drive_service, notification_id, resource_id)
             except errors.HttpError, error:
                 logging.warning('HttpError occurred while unsubscribing push notifications')
                 logging.warning(error)

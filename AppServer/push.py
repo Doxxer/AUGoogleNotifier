@@ -3,8 +3,8 @@ import logging
 from apiclient.errors import HttpError
 
 
-def WatchChange(service, channel_id, channel_type, channel_address,
-                channel_token=None, channel_params=None):
+def watch_change(service, channel_id, channel_type, channel_address,
+                 channel_token=None, channel_params=None):
     """Watch for all changes to a user's Drive.
 
     Args:
@@ -33,7 +33,7 @@ def WatchChange(service, channel_id, channel_type, channel_address,
     return service.changes().watch(body=body).execute()
 
 
-def RetrieveChange(service, change_id):
+def retrieve_change(service, change_id):
     """
     Print a single Change resource information.
 
@@ -46,11 +46,11 @@ def RetrieveChange(service, change_id):
         change = service.changes().get(changeId=change_id).execute()
         result['modificationDate'] = change['modificationDate']
         if change.get('file'):
-            file = change['file']
-            result['title'] = file['title']
-            result['URL'] = file['alternateLink']
-            if file.get('lastModifyingUser'):
-                user = file['lastModifyingUser']
+            file_info = change['file']
+            result['title'] = file_info['title']
+            result['URL'] = file_info['alternateLink']
+            if file_info.get('lastModifyingUser'):
+                user = file_info['lastModifyingUser']
                 result['user_name'] = user['displayName']
                 if user.get('picture') and user['picture'].get('url'):
                     result['picture'] = user['picture']['url']
@@ -60,7 +60,7 @@ def RetrieveChange(service, change_id):
     return result
 
 
-def StopChannel(service, channel_id, resource_id):
+def stop_channel(service, channel_id, resource_id):
     """Stop watching to a specific channel.
 
     Args:

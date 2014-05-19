@@ -1,9 +1,9 @@
-from ValidateCredential import ValidateCredential
+from validateCredential import validateCredential
 from handlers.BaseHandler import BaseHandler
 
 
 class SubscribeHandler(BaseHandler):
-    @ValidateCredential
+    @validateCredential
     def post(self):
         """
         POST request handling method.

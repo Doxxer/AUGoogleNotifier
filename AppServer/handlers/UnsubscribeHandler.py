@@ -1,11 +1,11 @@
 import logging
 
-from ValidateCredential import ValidateCredential
+from validateCredential import validateCredential
 from handlers.BaseHandler import BaseHandler
 
 
 class UnsubscribeHandler(BaseHandler):
-    @ValidateCredential
+    @validateCredential
     def post(self):
         """
         POST request handling method.
