@@ -28,7 +28,7 @@ def make_auth_request():
         else:
             auth_code = grab_authorization_code(url=response.text)
             if auth_code['success']:
-                response = SESSION.get(AUTH_CALLBACK_ADDRESS, params={'code': auth_code})
+                response = SESSION.get(AUTH_CALLBACK_ADDRESS, params={'code': auth_code['data']})
                 print response.status_code, response.reason, response.text
             else:
                 print auth_code['data']
