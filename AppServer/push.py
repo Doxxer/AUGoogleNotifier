@@ -55,7 +55,8 @@ def RetrieveChange(service, change_id):
                 if user.get('picture') and user['picture'].get('url'):
                     result['picture'] = user['picture']['url']
     except HttpError, error:
-        logging.error(error)
+        logging.warning('Error occurred while retrieve changes:')
+        logging.warning(error)
     return result
 
 

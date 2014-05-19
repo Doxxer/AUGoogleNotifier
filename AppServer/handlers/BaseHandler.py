@@ -74,11 +74,13 @@ class BaseHandler(webapp2.RequestHandler):
                                       address, channel_params=params, channel_token=token_string)
 
             except errors.HttpError, error:
+                logging.warning('HttpError occurred while subscribing push notifications')
                 logging.warning(error)
                 result['success'] = False
                 result['error_code'] = error.resp.status
                 result['error_msg'] = error._get_reason().strip()
             except (DeadlineExceededError, HTTPException), error:
+                logging.warning('DeadlineExceededError/HTTPException occurred while subscribing push notifications')
                 logging.warning(error)
                 result['success'] = False
                 result['error_code'] = 510
@@ -127,11 +129,14 @@ class BaseHandler(webapp2.RequestHandler):
             try:
                 StopChannel(self.drive_service, notification_id, resource_id)
             except errors.HttpError, error:
-                logging.error(error)
+                logging.warning('HttpError occurred while unsubscribing push notifications')
+                logging.warning(error)
                 result['success'] = False
                 result['error_code'] = error.resp.status
                 result['error_msg'] = error._get_reason().strip()
-            except (DeadlineExceededError, HTTPException):
+            except (DeadlineExceededError, HTTPException), error:
+                logging.warning('DeadlineExceededError/HTTPException occurred while subscribing push notifications')
+                logging.warning(error)
                 result['success'] = False
                 result['error_code'] = 510
                 result['error_msg'] = ('Request exceeded its deadline.'

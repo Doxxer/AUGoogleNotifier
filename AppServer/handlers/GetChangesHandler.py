@@ -16,8 +16,9 @@ class GetChangesHandler(BaseHandler):
         entity.change_ids[:] = []
         entity.save()
 
-        logging.warning(user_id)
-        logging.warning(changes)
+        logging.debug("User id retrieving changes: {0}".format(str(user_id)))
+        logging.debug("Changes:")
+        logging.debug(changes)
 
         response = []
         for change_id in changes:

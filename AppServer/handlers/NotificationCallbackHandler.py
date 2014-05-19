@@ -26,8 +26,8 @@ class NotificationCallbackHandler(BaseHandler):
         user_id = dict(urlparse.parse_qsl(self.request.headers['X-Goog-Channel-Token']))['user_id']
         change_id = json.loads(self.request.body)['id']
 
-        logging.warning(user_id)
-        logging.warning(change_id)
+        logging.debug("User id receiving change: {0}".format(str(user_id)))
+        logging.debug("change id: {0}".format(str(change_id)))
 
         entity = GoogleDocsChange.get_or_insert(str(user_id), user_id=user_id)
         if change_id not in entity.change_ids:
