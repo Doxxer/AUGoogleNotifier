@@ -29,9 +29,21 @@ do
     fi    
 done
 
-s="$s -title \"${FILENAME}\""
-s="$s -subtitle \"${USERNAME}\""
-s="$s -open \"${URL}\""
-s="$s -message \"Документ изменился\""
-s="terminal-notifier $s"
-eval $s
+OS=`uname -s`
+if [ "$OS" == 'Linux' ]; then
+    s=""
+    s="$s \"${FILENAME}\""
+    s="$s \"${USERNAME}\""
+    s="notify-send $s -i gtk-info"
+    eval $s
+elif [ "$OS" == 'Darwin' ]; then
+    s=""
+    s="$s -title \"${FILENAME}\""
+    s="$s -subtitle \"${USERNAME}\""
+    s="$s -open \"${URL}\""
+    s="$s -message \"Документ изменился\""
+    s="terminal-notifier $s"
+    eval $s    
+else
+    : # do nothing
+fi
