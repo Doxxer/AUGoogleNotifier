@@ -2,6 +2,7 @@
 
 #include <QNetworkCookie>
 #include <QUuid>
+#include <QDebug>
 
 
 NetworkManager::NetworkManager(QString const &appserver, QObject *parent):
@@ -46,13 +47,19 @@ void NetworkManager::processFinish(QNetworkReply *reply)
     bool ok;
     QString msg;
 
-    if (reply->error() == QNetworkReply::NoError) {
+    QNetworkReply::NetworkError error = reply->error();
+    if (error == QNetworkReply::NoError) {
         ok = true;
+        msg = QString::fromUtf8(reply->readAll());
+    } else if (error == QNetworkReply::AuthenticationRequiredError
+               || error == QNetworkReply::UnknownContentError) {
+        ok = false;
         msg = QString::fromUtf8(reply->readAll());
     } else {
         ok = false;
         msg = reply->errorString();
     }
+
     m_cookieJar->save(); // !!!
     reply->deleteLater();
     emit response(ok, msg);
