@@ -9,21 +9,25 @@ class GetAndStopHandler(BaseHTTPServer.BaseHTTPRequestHandler):
         request = self.path
         assert isinstance(request, str)
         if request.startswith("/?code="):
-            self.server.authenticate_code = request.split("/?code=")[1]
-            self.send_response(200)
-            self.send_header("Content-type", "text/html")
-            self.end_headers()
-            self.wfile.write("<html>")
-            self.wfile.write("<body onload=\"window.open('','_self','').close();\"/>")
-            self.wfile.write("</html>")
-            self.wfile.close()
-            self.server.stop = True
+            self.server.authenticate_code['success'] = True
+        else:
+            self.server.authenticate_code['success'] = False
+
+        self.server.authenticate_code['data'] = request.split('=')[1]
+        self.send_response(200)
+        self.send_header("Content-type", "text/html")
+        self.end_headers()
+        self.wfile.write("<html>")
+        self.wfile.write("<body onload=\"window.open('','_self','').close();\"/>")
+        self.wfile.write("</html>")
+        self.wfile.close()
+        self.server.stop = True
 
 
 class StoppableHttpServer(BaseHTTPServer.HTTPServer):
     def __init__(self, server_address, RequestHandlerClass, bind_and_activate=True):
         TCPServer.__init__(self, server_address, RequestHandlerClass, bind_and_activate=True)
-        self.authenticate_code = None
+        self.authenticate_code = {}
         self.stop = False
 
     def serve_forever(self, poll_interval=0.5):
