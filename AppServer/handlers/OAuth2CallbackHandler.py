@@ -21,8 +21,8 @@ class OAuth2CallbackHandler(BaseHandler):
         Save credential if code exchange is successful.
         """
         if 'code' not in self.request.GET:
-            self.response.set_status(404)
-            self.response.write("Code parameter not found")
+            self.response.set_status(400)
+            self.response.write("Authorization code not found")
             return
 
         try:
@@ -39,4 +39,4 @@ class OAuth2CallbackHandler(BaseHandler):
             self.session['user_id'] = user_information['id']
             self.session['name'] = user_information['name']
             self.response.set_status(200)
-            self.response.write("OK " + self.session['name'])
+            self.response.write("Authentication successful. Your name is " + self.session['name'])

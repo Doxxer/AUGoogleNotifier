@@ -39,7 +39,7 @@ class LoginHandler(BaseHandler):
 
         if self.authenticate_user():
             self.response.set_status(200)
-            self.response.write("OK " + self.session['name'])
+            self.response.write("Authentication successful. Your name is " + self.session['name'])
 
     def user_logged_in(self):
         cookie_mac_address = self.get_value_from_cookie('mac_address')

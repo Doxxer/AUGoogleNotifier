@@ -22,8 +22,9 @@ class GetChangesHandler(BaseHandler):
 
         response = []
         for change_id in changes:
-            res = retrieve_change(self.drive_service, change_id)
-            response.append(res)
+            change = retrieve_change(self.drive_service, change_id)
+            if change:
+                response.append(change)
 
         self.response.content_type = 'application/json'
         self.response.write(json.dumps({'changes_list': response}))

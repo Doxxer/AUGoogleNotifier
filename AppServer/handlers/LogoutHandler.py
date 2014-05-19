@@ -7,3 +7,4 @@ class LogoutHandler(BaseHandler):
     def post(self):
         self.logout()
         self.response.set_status(200)
+        self.response.write("Logout successful")

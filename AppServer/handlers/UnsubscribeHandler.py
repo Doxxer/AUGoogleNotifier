@@ -22,5 +22,5 @@ class UnsubscribeHandler(BaseHandler):
             if result['error_code'] == 401:
                 self.logout()
         else:
-            self.response.write('OK')
+            self.response.write("Unsubscribed successfully")
             self.response.set_status(200)
