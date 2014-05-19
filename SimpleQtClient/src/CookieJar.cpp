@@ -4,7 +4,6 @@
 #include <QDataStream>
 #include <QSettings>
 #include <QFile>
-#include <QDebug>
 
 
 QString const ARRAY_NAME = "cookies";
@@ -20,7 +19,6 @@ CookieJar::CookieJar(QObject *parent):
 bool CookieJar::load()
 {
     QSettings settings;
-    qDebug() << "settings path:" << settings.fileName();
     int size = settings.beginReadArray(ARRAY_NAME);
     if (!size)
         return false;
@@ -54,6 +52,5 @@ bool CookieJar::save() const
     settings.endArray();
 
     settings.sync();
-    qDebug() << (settings.status() == QSettings::NoError);
     return settings.status() == QSettings::NoError;
 }
