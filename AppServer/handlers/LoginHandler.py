@@ -1,8 +1,11 @@
 import logging
 import pickle
 
-from oauth2client.client import AccessTokenRefreshError
 import httplib2
+
+from handlers.Errors import *
+
+from oauth2client.client import AccessTokenRefreshError
 from handlers.BaseHandler import BaseHandler
 
 
@@ -14,14 +17,23 @@ class LoginHandler(BaseHandler):
     def post(self):
         """
         POST request handling method.
-        TODO ???
         """
         logging.info(self.session)
         logging.info(self.request.headers)
         logging.info(self.request)
 
-        if not self.user_logged_in():
-            self.response.write(self.compose_auth_url())
+        try:
+            if not self.user_logged_in():
+                self.response.set_status(200)
+                self.response.write(self.compose_auth_url())
+                return
+        except MacAddressError:
+            self.response.set_status(400)
+            self.response.write("Mac address required")
+            return
+        except CookieError:
+            self.response.set_status(400)
+            self.response.write("Cookies not found")
             return
 
         if self.authenticate_user():
@@ -29,9 +41,12 @@ class LoginHandler(BaseHandler):
             self.response.write("OK " + self.session['name'])
 
     def user_logged_in(self):
+        cookie_mac_address = self.get_value_from_cookie('mac_address')
+        if not cookie_mac_address:
+            raise MacAddressError()
         return 'credential' in self.session and \
                'mac_address' in self.session and \
-               self.session['mac_address'] == self.get_value_from_cookie('mac_address')
+               self.session['mac_address'] == cookie_mac_address
 
     def compose_auth_url(self):
         return self.create_login_url()

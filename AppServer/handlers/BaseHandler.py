@@ -7,6 +7,7 @@ import webapp2
 from webapp2_extras import sessions
 
 from apiclient import errors
+from handlers.Errors import CookieError
 from push import StopChannel
 import view
 
@@ -106,5 +107,7 @@ class BaseHandler(webapp2.RequestHandler):
         """
         Return a value by key from cookie_header
         """
+        if 'Cookie' not in self.request.headers:
+            raise CookieError()
         cookie_dict = dict(item.split("=") for item in self.request.headers['Cookie'].split(";"))
         return cookie_dict.get(key)

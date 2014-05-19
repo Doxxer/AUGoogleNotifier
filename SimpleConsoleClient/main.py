@@ -20,13 +20,16 @@ SESSION = requests.Session()
 
 
 def make_auth_request():
-    response = SESSION.post(LOGIN_ADDRESS).text
+    response = SESSION.post(LOGIN_ADDRESS)
 
-    if response.split()[0].strip().lower() == "ok":
-        print response
+    if response.status_code == 200:
+        if response.text.split()[0].strip().lower() == "ok":
+            print response
+        else:
+            auth_code = grab_authorization_code(url=response)
+            response = SESSION.get(AUTH_CALLBACK_ADDRESS, params={'code': auth_code})
+            print response.status_code, response.reason, response.text
     else:
-        auth_code = grab_authorization_code(url=response)
-        response = SESSION.get(AUTH_CALLBACK_ADDRESS, params={'code': auth_code})
         print response.status_code, response.reason, response.text
 
 
