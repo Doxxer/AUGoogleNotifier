@@ -10,8 +10,6 @@ char const * const UNSUBSCRIBE_PATH = "unsubscribe";
 char const * const CHANGES_PATH = "get_changes";
 char const * const AUTH_CALLBACK_PATH = "oauth2callback";
 
-char const * const COOKIES = "cookies.dat";
-
 int const HTTP_PORT = 19004;
 
 

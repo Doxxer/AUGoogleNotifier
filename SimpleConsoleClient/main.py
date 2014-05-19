@@ -26,9 +26,12 @@ def make_auth_request():
         if response.text.split()[0].strip().lower() == "ok":
             print response
         else:
-            auth_code = grab_authorization_code(url=response)
-            response = SESSION.get(AUTH_CALLBACK_ADDRESS, params={'code': auth_code})
-            print response.status_code, response.reason, response.text
+            auth_code = grab_authorization_code(url=response.text)
+            if auth_code['success']:
+                response = SESSION.get(AUTH_CALLBACK_ADDRESS, params={'code': auth_code['data']})
+                print response.status_code, response.reason, response.text
+            else:
+                print auth_code['data']
     else:
         print response.status_code, response.reason, response.text
 
@@ -49,8 +52,12 @@ def make_unsubscribe_request():
 
 
 def make_get_changes_request():
-    response = SESSION.post(GET_CHANGES_ADDRESS).text
-    response = json.loads(response)['changes_list']
+    response = SESSION.post(GET_CHANGES_ADDRESS)
+    if response.status_code != 200:
+        print response.status_code, response.reason, response.text
+        return
+    else:
+        response = json.loads(response.text)['changes_list']
 
     if not response:
         print "no changes"

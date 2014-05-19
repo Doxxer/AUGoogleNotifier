@@ -13,8 +13,7 @@ class NetworkManager: public QObject
     Q_OBJECT
 
 public:
-    NetworkManager(QString const &appserver, QString const &cookies,
-                   QObject *parent = 0);
+    NetworkManager(QString const &appserver, QObject *parent = 0);
     ~NetworkManager();
 
     void post(QString const &path);
@@ -30,8 +29,6 @@ private:
     QNetworkRequest const createRequest(QString const &path) const;
 
     QString const m_appserver;
-    QString const m_cookies;
-
     CookieJar *m_cookieJar;
     QNetworkAccessManager *m_nam;
 };

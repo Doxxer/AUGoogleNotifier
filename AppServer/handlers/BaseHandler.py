@@ -1,6 +1,8 @@
 import logging
 import pickle
 from httplib import HTTPException
+import urllib
+import uuid
 
 from google.appengine.runtime.apiproxy_errors import DeadlineExceededError
 import webapp2
@@ -8,10 +10,13 @@ from webapp2_extras import sessions
 
 from apiclient import errors
 from handlers.Errors import CookieError
-from push import StopChannel
+from push import stop_channel
 import view
+from push import watch_change
 
 
+
+# noinspection PyProtectedMember,PyAttributeOutsideInit
 class BaseHandler(webapp2.RequestHandler):
     def dispatch(self):
         """
@@ -39,23 +44,77 @@ class BaseHandler(webapp2.RequestHandler):
         Delete credential in session data
         """
         if 'credential' in self.session:
-            self.Unsubscribe(force_delete=True)
+            self.unsubscribe(force_delete=True)
             for k in list(self.session.keys()):
                 del self.session[k]
 
-    def Unsubscribe(self, force_delete=False):
+    def subscribe(self):
+        """
+        Subscribe to push notifications
+        Returns:
+            dict, containing result of unsubscribe request.
+            dict['success'], boolean, True if unsubscribe request was successful.
+            Additional following data when unsubscribe request failed.
+            dict['error_code'], int, Status code of unsubscribe request.
+            dict['error_msg'], string, Error message of unsubscribe request.
+        """
+        result = {}
+
+        notification_id = str(uuid.uuid4())
+        channel_type = 'web_hook'
+        address = self.request.host_url + '/notificationcallback'
+        params = {'ttl': 1800}
+        token_data = {'user_id': self.session['user_id']}
+        token_string = urllib.urlencode(token_data)
+        credential = pickle.loads(self.session.get('credential'))
+        channel = None
+
+        if not credential.access_token_expired and hasattr(self, 'drive_service'):
+            try:
+                channel = watch_change(self.drive_service,
+                                       notification_id,
+                                       channel_type,
+                                       address,
+                                       channel_params=params,
+                                       channel_token=token_string)
+
+            except errors.HttpError, error:
+                logging.warning('HttpError occurred while subscribing push notifications')
+                logging.warning(error)
+                result['success'] = False
+                result['error_code'] = error.resp.status
+                result['error_msg'] = error._get_reason().strip()
+            except (DeadlineExceededError, HTTPException), error:
+                logging.warning('DeadlineExceededError/HTTPException occurred while subscribing push notifications')
+                logging.warning(error)
+                result['success'] = False
+                result['error_code'] = 510
+                result['error_msg'] = "Request exceeded its deadline. Please try again"
+            else:
+                result['success'] = True
+        else:
+            result['success'] = False
+            result['error_code'] = 401
+            result['error_msg'] = 'Credential expired'
+
+        if result['success']:
+            self.session['notification_id'] = channel['id']
+            self.session['resource_id'] = channel['resourceId']
+
+        return result
+
+    def unsubscribe(self, force_delete=False):
         """Unsubscribe from push notifications.
 
-        Args:
-          force_delete: boolean, force delete session even when unsubscribe fails.
+        :param force_delete: boolean, force delete session even when unsubscribe fails.
         Returns:
-          dict, containing result of unsubscribe request.
-          dict['success'], boolean, True if unsubscribe request was successful.
-          Additional following data when unsubscribe request failed.
-          dict['error_code'], int, Status code of unsubscribe request.
-          dict['error_msg'], string, Error message of unsubscribe request.
+            dict, containing result of unsubscribe request.
+            dict['success'], boolean, True if unsubscribe request was successful.
+            Additional following data when unsubscribe request failed.
+            dict['error_code'], int, Status code of unsubscribe request.
+            dict['error_msg'], string, Error message of unsubscribe request.
         """
-        return_val = {}
+        result = {}
 
         # Retrieve task-specific notification_id and resource_id
         notification_id = self.session.get('notification_id')
@@ -64,37 +123,40 @@ class BaseHandler(webapp2.RequestHandler):
         # If not subscribed, return
 
         if not notification_id:
-            return_val['success'] = False
-            return_val['error_code'] = 400
-            return_val['error_msg'] = 'Not subscribed'
-            return return_val
+            result['success'] = False
+            result['error_code'] = 400
+            result['error_msg'] = 'Not subscribed'
+            return result
 
         # Make unsubscribe request
         credential = pickle.loads(self.session.get('credential'))
         if not credential.access_token_expired and hasattr(self, 'drive_service'):
             try:
-                StopChannel(self.drive_service, notification_id, resource_id)
+                stop_channel(self.drive_service, notification_id, resource_id)
             except errors.HttpError, error:
-                logging.error(error)
-                return_val['success'] = False
-                return_val['error_code'] = error.resp.status
-                return_val['error_msg'] = error._get_reason().strip()
-            except (DeadlineExceededError, HTTPException):
-                return_val['success'] = False
-                return_val['error_code'] = 510
-                return_val['error_msg'] = ('Request exceeded its deadline.'
-                                           'Please try again')
+                logging.warning('HttpError occurred while unsubscribing push notifications')
+                logging.warning(error)
+                result['success'] = False
+                result['error_code'] = error.resp.status
+                result['error_msg'] = error._get_reason().strip()
+            except (DeadlineExceededError, HTTPException), error:
+                logging.warning('DeadlineExceededError/HTTPException occurred while subscribing push notifications')
+                logging.warning(error)
+                result['success'] = False
+                result['error_code'] = 510
+                result['error_msg'] = ('Request exceeded its deadline.'
+                                       'Please try again')
             else:
-                return_val['success'] = True
+                result['success'] = True
         else:
-            return_val['success'] = False
-            return_val['error_code'] = 401
-            return_val['error_msg'] = 'Credential expired'
+            result['success'] = False
+            result['error_code'] = 401
+            result['error_msg'] = 'Credential expired'
 
-        if return_val['success'] or force_delete:
+        if result['success'] or force_delete:
             del self.session['notification_id']
             del self.session['resource_id']
-        return return_val
+        return result
 
     @staticmethod
     def create_login_url():

@@ -1,9 +1,9 @@
-from ValidateCredential import ValidateCredential
+from validateCredential import validateCredential
 from handlers.BaseHandler import BaseHandler
 
 
 class LogoutHandler(BaseHandler):
-    @ValidateCredential
+    @validateCredential
     def post(self):
         self.logout()
         self.response.set_status(200)

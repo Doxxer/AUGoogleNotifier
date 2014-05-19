@@ -1,19 +1,20 @@
 import pickle
 
-from apiclient.discovery import build
-from oauth2client.client import AccessTokenRefreshError
 import httplib2
 
+from apiclient.discovery import build
 
-def ValidateCredential(function):
+from oauth2client.client import AccessTokenRefreshError
+
+
+def validateCredential(function):
     """
     Decorator to validate credentials
     """
 
     def _decorated(self, *args, **kwargs):
-        if 'credential' in self.session and \
-                        'mac_address' in self.session and \
-                        self.session['mac_address'] == self.get_value_from_cookie('mac_address'):
+        session_ok = 'credential' in self.session and 'mac_address' in self.session
+        if session_ok and self.session['mac_address'] == self.get_value_from_cookie('mac_address'):
             # Load credential from session data.
             credential = pickle.loads(self.session.get('credential'))
             http = httplib2.Http()

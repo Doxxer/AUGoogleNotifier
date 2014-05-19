@@ -18,9 +18,10 @@ class LoginHandler(BaseHandler):
         """
         POST request handling method.
         """
-        logging.info(self.session)
-        logging.info(self.request.headers)
-        logging.info(self.request)
+        logging.debug("Logging info: session/request headers/request")
+        logging.debug(self.session)
+        logging.debug(self.request.headers)
+        logging.debug(self.request)
 
         try:
             if not self.user_logged_in():

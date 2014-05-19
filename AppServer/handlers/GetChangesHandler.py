@@ -1,14 +1,14 @@
 import json
 import logging
 
-from ValidateCredential import ValidateCredential
+from validateCredential import validateCredential
 from handlers.BaseHandler import BaseHandler
 from models.GoogleDocsChange import GoogleDocsChange
-from push import RetrieveChange
+from push import retrieve_change
 
 
 class GetChangesHandler(BaseHandler):
-    @ValidateCredential
+    @validateCredential
     def post(self):
         user_id = self.session['user_id']
         entity = GoogleDocsChange.get_or_insert(str(user_id), user_id=user_id)
@@ -16,12 +16,13 @@ class GetChangesHandler(BaseHandler):
         entity.change_ids[:] = []
         entity.save()
 
-        logging.warning(user_id)
-        logging.warning(changes)
+        logging.debug("User id retrieving changes: {0}".format(str(user_id)))
+        logging.debug("Changes:")
+        logging.debug(changes)
 
         response = []
         for change_id in changes:
-            res = RetrieveChange(self.drive_service, change_id)
+            res = retrieve_change(self.drive_service, change_id)
             response.append(res)
 
         self.response.content_type = 'application/json'
