@@ -8,8 +8,12 @@
 int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
-    QScopedPointer<UserDialog> ud(new UserDialog());
 
+    QApplication::setOrganizationName("SPbAU");
+    QApplication::setOrganizationDomain("mit.spbau.ru");
+    QApplication::setApplicationName("AUGoogleNotifier");
+
+    QScopedPointer<UserDialog> ud(new UserDialog());
     QObject::connect(ud.data(), SIGNAL(quit()), &app, SLOT(quit()));
     QTimer::singleShot(0, ud.data(), SLOT(run()));
 

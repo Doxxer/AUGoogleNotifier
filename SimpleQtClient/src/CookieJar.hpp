@@ -8,8 +8,8 @@ class CookieJar: public QNetworkCookieJar
 {
 public:
     CookieJar(QObject *parent = 0);
-    bool load(QString const &fileName);
-    bool save(QString const &fileName) const;
+    bool load();
+    bool save() const;
 };
 
 

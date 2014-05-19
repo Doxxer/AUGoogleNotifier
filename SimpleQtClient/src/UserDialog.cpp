@@ -13,7 +13,7 @@ UserDialog::UserDialog(QObject *parent):
     QObject(parent),
     m_cin(stdin),
     m_cout(stdout),
-    m_networkManager(new NetworkManager(APPSERVER, COOKIES, this))
+    m_networkManager(new NetworkManager(APPSERVER, this))
 {
     addCommandProcessor(new Authorizer(m_networkManager, this), "a");
     addCommandProcessor(new Logouter(m_networkManager, this), "l");

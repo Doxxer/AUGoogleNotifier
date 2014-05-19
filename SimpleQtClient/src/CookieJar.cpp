@@ -2,40 +2,13 @@
 
 #include <QNetworkCookie>
 #include <QDataStream>
+#include <QSettings>
 #include <QFile>
+#include <QDebug>
 
 
-void writeCookies(QDataStream &out, QList<QNetworkCookie> const &list)
-{
-    out << static_cast<quint32>(list.size());
-    for (int i = 0; i < list.size(); ++i) {
-        out << list[i].toRawForm();
-    }
-}
-
-
-bool readCookies(QDataStream &in, QList<QNetworkCookie> &list)
-{
-    list.clear();
-
-    quint32 count;
-    in >> count;
-    bool ok = true;
-
-    for (quint32 i = 0; i < count; ++i) {
-        QByteArray raw;
-        in >> raw;
-        QList<QNetworkCookie> cookies = QNetworkCookie::parseCookies(raw);
-        ok = ok && !(cookies.size() == 0 && raw.size() != 0);
-        for (int j = 0; j < cookies.size(); ++j) {
-            list.append(cookies[j]);
-        }
-        if (in.atEnd())
-            break;
-    }
-
-    return ok;
-}
+QString const ARRAY_NAME = "cookies";
+QString const ELEM_NAME = "cookie";
 
 
 CookieJar::CookieJar(QObject *parent):
@@ -44,31 +17,43 @@ CookieJar::CookieJar(QObject *parent):
 }
 
 
-bool CookieJar::load(QString const &fileName)
+bool CookieJar::load()
 {
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly))
+    QSettings settings;
+    qDebug() << "settings path:" << settings.fileName();
+    int size = settings.beginReadArray(ARRAY_NAME);
+    if (!size)
         return false;
-    QDataStream in(&file);
 
     QList<QNetworkCookie> cookies;
-    if (!readCookies(in, cookies))
-        return false;
-    setAllCookies(cookies);
+    cookies.reserve(size);
+    for (int i = 0; i < size; ++i) {
+        settings.setArrayIndex(i);
+        QByteArray raw(settings.value(ELEM_NAME).toByteArray());
+        QList<QNetworkCookie> parsed(QNetworkCookie::parseCookies(raw));
+        cookies.append(parsed);
+    }
 
-    return true;
+    setAllCookies(cookies);
+    return settings.status() == QSettings::NoError;
 }
 
 
-bool CookieJar::save(QString const &fileName) const
+bool CookieJar::save() const
 {
-    QFile file(fileName);
-    if (!file.open(QIODevice::WriteOnly))
+    QSettings settings;
+    if (!settings.isWritable())
         return false;
-    QDataStream out(&file);
 
-    QList<QNetworkCookie> cookies;
-    writeCookies(out, allCookies());
+    QList<QNetworkCookie> const &cookies = allCookies();
+    settings.beginWriteArray(ARRAY_NAME);
+    for (int i = 0; i < cookies.size(); ++i) {
+        settings.setArrayIndex(i);
+        settings.setValue(ELEM_NAME, cookies[i].toRawForm());
+    }
+    settings.endArray();
 
-    return true;
+    settings.sync();
+    qDebug() << (settings.status() == QSettings::NoError);
+    return settings.status() == QSettings::NoError;
 }

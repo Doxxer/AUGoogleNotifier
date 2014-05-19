@@ -4,16 +4,13 @@
 #include <QUuid>
 
 
-NetworkManager::NetworkManager(QString const &appserver,
-                               QString const &cookies,
-                               QObject *parent):
+NetworkManager::NetworkManager(QString const &appserver, QObject *parent):
     QObject(parent),
     m_appserver(appserver),
-    m_cookies(cookies),
     m_cookieJar(new CookieJar()),
     m_nam(new QNetworkAccessManager(this))
 {
-    if (!m_cookieJar->load(m_cookies)) {
+    if (!m_cookieJar->load()) {
         QNetworkCookie cookie("mac_address", // !!! rename
                               QUuid::createUuid().toByteArray());
         m_cookieJar->setCookiesFromUrl(QList<QNetworkCookie>() << cookie,
@@ -28,7 +25,7 @@ NetworkManager::NetworkManager(QString const &appserver,
 
 NetworkManager::~NetworkManager()
 {
-    m_cookieJar->save(m_cookies);
+    m_cookieJar->save();
 }
 
 
@@ -56,7 +53,7 @@ void NetworkManager::processFinish(QNetworkReply *reply)
         ok = false;
         msg = reply->errorString();
     }
-    m_cookieJar->save(m_cookies); // !!!
+    m_cookieJar->save(); // !!!
     reply->deleteLater();
     emit response(ok, msg);
 }
