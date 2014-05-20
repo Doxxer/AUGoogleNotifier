@@ -10,9 +10,6 @@ class Logouter: public Requester
 
 public:
     Logouter(NetworkManager *networkManager, QObject *parent = 0);
-
-protected:
-    QString const prepareResult(QString const &msg) const;
 };
 
 
