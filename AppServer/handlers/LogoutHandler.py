@@ -1,4 +1,4 @@
-from validateCredential import validateCredential
+from ValidateCredential import validateCredential
 from handlers.BaseHandler import BaseHandler
 
 

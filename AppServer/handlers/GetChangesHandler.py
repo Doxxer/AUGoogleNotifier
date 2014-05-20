@@ -1,7 +1,7 @@
 import json
 import logging
 
-from validateCredential import validateCredential
+from ValidateCredential import validateCredential
 from handlers.BaseHandler import BaseHandler
 from models.GoogleDocsChange import GoogleDocsChange
 from push import retrieve_change
