@@ -15,6 +15,11 @@ CONFIG (debug, debug | release) {
 MOC_DIR = build/moc
 DESTDIR = bin
 
+macx {
+    QMAKE_INFO_PLIST = resources/info.plist
+    ICON = resources/icon.icns
+}
+
 RESOURCES = Client.qrc
 
 VPATH += src src/core src/console src/gui
