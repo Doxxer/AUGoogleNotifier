@@ -1,5 +1,5 @@
-#ifndef AUTHORIZER_H
-#define AUTHORIZER_H
+#ifndef AUTHORIZER_HPP
+#define AUTHORIZER_HPP
 
 #include "CommandProcessor.hpp"
 #include "NetworkManager.hpp"
@@ -26,4 +26,4 @@ private:
 };
 
 
-#endif // AUTHORIZER_H
+#endif // AUTHORIZER_HPP

@@ -1,4 +1,5 @@
 #include "Authorizer.hpp"
+#include "AuthorizationChecker.hpp"
 #include "OneShotHttpServer.hpp"
 #include "defs.hpp"
 
@@ -29,8 +30,7 @@ void Authorizer::processLoginResponse(bool ok, QString const &msg)
         emit error(msg);
         return;
     }
-    if (msg.trimmed().startsWith("authentication successful",
-                                 Qt::CaseInsensitive)) {
+    if (AuthorizationChecker::isAuthorized(msg)) {
         emit result(msg);
         return;
     }

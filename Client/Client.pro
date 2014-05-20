@@ -26,6 +26,7 @@ VPATH += src src/core src/console src/gui
 INCLUDEPATH += src/core src/console src/gui
 
 HEADERS += Authorizer.hpp \
+           AuthorizationChecker.hpp \
            ChangesGetter.hpp \
            Controller.hpp \
            CommandProcessor.hpp \
@@ -38,6 +39,7 @@ HEADERS += Authorizer.hpp \
            Unsubscriber.hpp \
            UserDialog.hpp
 SOURCES += Authorizer.cpp \
+           AuthorizationChecker.cpp \
            ChangesGetter.cpp \
            Controller.cpp \
            CookieJar.cpp \
