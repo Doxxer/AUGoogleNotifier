@@ -11,6 +11,8 @@ class Authorizer: public CommandProcessor
 
 public:
     explicit Authorizer(NetworkManager *networkManager, QObject *parent = 0);
+
+public slots:
     void process();
 
 private slots:

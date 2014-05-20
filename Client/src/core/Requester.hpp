@@ -14,6 +14,8 @@ public:
 
     Requester(RequestType type, QString const &path,
               NetworkManager *networkManager, QObject *parent = 0);
+
+public slots:
     void process();
 
 protected:
