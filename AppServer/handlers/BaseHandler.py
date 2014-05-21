@@ -115,14 +115,14 @@ class BaseHandler(webapp2.RequestHandler):
             dict['error_msg'], string, Error message of unsubscribe request.
         """
         result = {}
+        delete_anyway = False
 
         # Retrieve task-specific notification_id and resource_id
         notification_id = self.session.get('notification_id')
         resource_id = self.session.get('resource_id')
 
         # If not subscribed, return
-
-        if not notification_id:
+        if not notification_id or not resource_id:
             result['success'] = False
             result['error_code'] = 400
             result['error_msg'] = 'Not subscribed'
@@ -139,6 +139,7 @@ class BaseHandler(webapp2.RequestHandler):
                 result['success'] = False
                 result['error_code'] = error.resp.status
                 result['error_msg'] = error._get_reason().strip()
+                delete_anyway = True
             except (DeadlineExceededError, HTTPException), error:
                 logging.warning('DeadlineExceededError/HTTPException occurred while subscribing push notifications')
                 logging.warning(error)
@@ -153,7 +154,7 @@ class BaseHandler(webapp2.RequestHandler):
             result['error_code'] = 401
             result['error_msg'] = 'Credential expired'
 
-        if result['success'] or force_delete:
+        if result['success'] or force_delete or delete_anyway:
             del self.session['notification_id']
             del self.session['resource_id']
         return result
