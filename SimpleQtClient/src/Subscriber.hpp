@@ -10,9 +10,6 @@ class Subscriber: public Requester
 
 public:
     Subscriber(NetworkManager *networkManager, QObject *parent = 0);
-
-protected:
-    QString const prepareResult(QString const &msg) const;
 };
 
 
