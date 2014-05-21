@@ -35,6 +35,7 @@ HEADERS += Authorizer.hpp \
            NetworkManager.hpp \
            OneShotHttpServer.hpp \
            Requester.hpp \
+           Resubscriber.hpp \
            Subscriber.hpp \
            Unsubscriber.hpp \
            UserDialog.hpp
@@ -48,6 +49,7 @@ SOURCES += Authorizer.cpp \
            NetworkManager.cpp \
            OneShotHttpServer.cpp \
            Requester.cpp \
+           Resubscriber.cpp \
            Subscriber.cpp \
            Unsubscriber.cpp \
            UserDialog.cpp

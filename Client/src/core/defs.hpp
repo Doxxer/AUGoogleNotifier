@@ -16,5 +16,7 @@ char const * const SUBSCRIBED_SETTING = "subscribed";
 
 int const HTTP_PORT = 19004;
 
+int const RESUBSCRIBE_TIMEOUT = 25 * 60 * 1000;
+
 
 #endif // DEFS_HPP

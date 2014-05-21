@@ -5,6 +5,7 @@
 #include <QAction>
 
 #include "NetworkManager.hpp"
+#include "Resubscriber.hpp"
 
 
 class Controller: public QObject
@@ -29,8 +30,10 @@ private:
     void createGui();
     bool loadSubscribed();
     void saveSubscribed();
+    void resetSubscriptionActions();
 
     NetworkManager *m_networkManager;
+    Resubscriber *m_resubscriber;
 
     QSystemTrayIcon *m_trayIcon;
     QAction *m_lastChangedAction;
@@ -39,6 +42,7 @@ private:
     QAction *m_subscribeAction;
     QAction *m_unsubscribeAction;
 
+    bool m_subscribed;
     QString m_lastChanged;
 };
 
