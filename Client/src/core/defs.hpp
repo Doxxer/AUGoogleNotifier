@@ -12,6 +12,8 @@ char const * const AUTH_CALLBACK_PATH = "oauth2callback";
 
 char const * const RECENT_URL = "https://drive.google.com/#recent";
 
+char const * const SUBSCRIBED_SETTING = "subscribed";
+
 int const HTTP_PORT = 19004;
 
 

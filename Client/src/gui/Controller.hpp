@@ -4,6 +4,8 @@
 #include <QSystemTrayIcon>
 #include <QAction>
 
+#include "NetworkManager.hpp"
+
 
 class Controller: public QObject
 {
@@ -13,6 +15,8 @@ public:
     Controller(QObject *parent = 0);
 
 private slots:
+    void prepare(bool authorized);
+    void processCritical();
     void openRecent();
     void openLastChanged();
     void processError(QString const &errMsg);
@@ -23,6 +27,10 @@ private slots:
 
 private:
     void createGui();
+    bool loadSubscribed();
+    void saveSubscribed();
+
+    NetworkManager *m_networkManager;
 
     QSystemTrayIcon *m_trayIcon;
     QAction *m_lastChangedAction;
