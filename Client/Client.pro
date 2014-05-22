@@ -34,6 +34,7 @@ HEADERS += Authorizer.hpp \
            Logouter.hpp \
            NetworkManager.hpp \
            OneShotHttpServer.hpp \
+           PollingManager.hpp \
            Requester.hpp \
            Resubscriber.hpp \
            Subscriber.hpp \
@@ -48,6 +49,7 @@ SOURCES += Authorizer.cpp \
            main.cpp \
            NetworkManager.cpp \
            OneShotHttpServer.cpp \
+           PollingManager.cpp \
            Requester.cpp \
            Resubscriber.cpp \
            Subscriber.cpp \
