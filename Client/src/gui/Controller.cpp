@@ -67,7 +67,8 @@ void showMessageBox(QString const &msg,
 
 void Controller::processCritical()
 {
-    showMessageBox("Critical error", QMessageBox::Critical);
+    showMessageBox("Couldn't connect to server", QMessageBox::Critical);
+    qApp->exit();
 }
 
 
