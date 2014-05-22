@@ -52,9 +52,17 @@ void Controller::prepare(bool authorized)
 }
 
 
+void showMessageBox(QString const &msg,
+                    QMessageBox::Icon icon = QMessageBox::Information)
+{
+    QMessageBox msgBox(icon, APP_NAME, msg, QMessageBox::Ok, 0, Qt::Sheet);
+    msgBox.exec();
+}
+
+
 void Controller::processCritical()
 {
-    QMessageBox::critical(0, "Critical", "Critical error");
+    showMessageBox("Critical error", QMessageBox::Critical);
 }
 
 
@@ -70,21 +78,16 @@ void Controller::openLastChanged()
 }
 
 
-void showInfoBox(QString const &msg)
-{
-    QMessageBox::information(0, "Success", msg);
-}
-
-
 void Controller::processError(QString const &errMsg)
 {
-    QMessageBox::warning(0, "Failure", errMsg);
+    showMessageBox(errMsg, QMessageBox::Warning);
 }
 
 
 void Controller::processAuth(QString const &msg)
 {
-    showInfoBox(msg);
+    showMessageBox(msg);
+
     m_authorizeAction->setEnabled(false);
     m_logoutAction->setEnabled(true);
 
@@ -95,7 +98,7 @@ void Controller::processAuth(QString const &msg)
 
 void Controller::processLogout(QString const &msg)
 {
-    showInfoBox(msg);
+    showMessageBox(msg);
 
     m_resubscriber->stop();
 
@@ -111,7 +114,7 @@ void Controller::processLogout(QString const &msg)
 
 void Controller::processSubscribe(QString const &msg)
 {
-    showInfoBox(msg);
+    showMessageBox(msg);
 
     m_subscribeAction->setEnabled(false);
     m_unsubscribeAction->setEnabled(true);
@@ -127,7 +130,7 @@ void Controller::processUnsubscribe(QString const &msg)
 {
     m_resubscriber->stop();
 
-    showInfoBox(msg);
+    showMessageBox(msg);
 
     m_subscribeAction->setEnabled(true);
     m_unsubscribeAction->setEnabled(false);
