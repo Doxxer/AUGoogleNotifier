@@ -28,11 +28,13 @@ INCLUDEPATH += src/core src/console src/gui
 HEADERS += Authorizer.hpp \
            AuthorizationChecker.hpp \
            ChangesGetter.hpp \
+           ChangesPoller.hpp \
            Controller.hpp \
            CommandProcessor.hpp \
            CookieJar.hpp \
            Logouter.hpp \
            NetworkManager.hpp \
+           Notifier.hpp \
            OneShotHttpServer.hpp \
            PollingManager.hpp \
            Requester.hpp \
@@ -43,11 +45,13 @@ HEADERS += Authorizer.hpp \
 SOURCES += Authorizer.cpp \
            AuthorizationChecker.cpp \
            ChangesGetter.cpp \
+           ChangesPoller.cpp \
            Controller.cpp \
            CookieJar.cpp \
            Logouter.cpp \
            main.cpp \
            NetworkManager.cpp \
+           Notifier.cpp \
            OneShotHttpServer.cpp \
            PollingManager.cpp \
            Requester.cpp \

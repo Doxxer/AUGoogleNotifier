@@ -4,8 +4,10 @@
 #include <QSystemTrayIcon>
 #include <QAction>
 
+#include "ChangesPoller.hpp"
 #include "NetworkManager.hpp"
 #include "Resubscriber.hpp"
+#include "Notifier.hpp"
 
 
 class Controller: public QObject
@@ -31,9 +33,13 @@ private:
     bool loadSubscribed();
     void saveSubscribed();
     void resetSubscriptionActions();
+    void subscribe();
+    void unsubscribe();
 
     NetworkManager *m_networkManager;
+    ChangesPoller *m_changesPoller;
     Resubscriber *m_resubscriber;
+    Notifier *m_notifier;
 
     QSystemTrayIcon *m_trayIcon;
     QAction *m_lastChangedAction;

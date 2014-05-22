@@ -18,13 +18,18 @@
 Controller::Controller(QObject *parent):
     QObject(parent),
     m_networkManager(new NetworkManager(APPSERVER, this)),
-    m_resubscriber(new Resubscriber(m_networkManager, this))
+    m_changesPoller(new ChangesPoller(m_networkManager, this)),
+    m_resubscriber(new Resubscriber(m_networkManager, this)),
+    m_notifier(new Notifier(this))
 {
     AuthorizationChecker *checker = new AuthorizationChecker(
             m_networkManager, this);
     connect(checker, SIGNAL(result(bool)), this, SLOT(prepare(bool)));
     connect(checker, SIGNAL(error()), this, SLOT(processCritical()));
     checker->check();
+
+    connect(m_changesPoller, SIGNAL(result(QString const &)),
+            m_notifier, SLOT(notify(QString const &)));
 }
 
 
@@ -40,7 +45,7 @@ void Controller::prepare(bool authorized)
         resetSubscriptionActions();
         if (m_subscribed) {
             m_subscribeAction->trigger();
-            m_resubscriber->start();
+            subscribe();
         } else {
             m_authorizeAction->trigger();
         }
@@ -100,7 +105,7 @@ void Controller::processLogout(QString const &msg)
 {
     showMessageBox(msg);
 
-    m_resubscriber->stop();
+    unsubscribe();
 
     m_authorizeAction->setEnabled(true);
     m_logoutAction->setEnabled(false);
@@ -122,13 +127,13 @@ void Controller::processSubscribe(QString const &msg)
     m_subscribed = true;
     saveSubscribed();
 
-    m_resubscriber->start();
+    subscribe();
 }
 
 
 void Controller::processUnsubscribe(QString const &msg)
 {
-    m_resubscriber->stop();
+    unsubscribe();
 
     showMessageBox(msg);
 
@@ -222,4 +227,18 @@ void Controller::resetSubscriptionActions()
 {
     m_subscribeAction->setEnabled(!m_subscribed);
     m_unsubscribeAction->setEnabled(m_subscribed);
+}
+
+
+void Controller::subscribe()
+{
+    m_changesPoller->start();
+    m_resubscriber->start();
+}
+
+
+void Controller::unsubscribe()
+{
+    m_changesPoller->stop();
+    m_resubscriber->stop();
 }
