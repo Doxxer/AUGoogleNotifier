@@ -9,11 +9,11 @@ int main(int argc, char **argv)
 {
     QApplication app(argc, argv);
 
-    QApplication::setOrganizationName("SPbAU");
-    QApplication::setOrganizationDomain("mit.spbau.ru");
-    QApplication::setApplicationName("AUGoogleNotifier");
+    QApplication::setOrganizationName(ORG_NAME);
+    QApplication::setOrganizationDomain(ORG_DOMAIN);
+    QApplication::setApplicationName(APP_NAME);
 
-    QScopedPointer<Controller> ud(new Controller());
+    QScopedPointer<Controller> controller(new Controller());
 
     return app.exec();
 }

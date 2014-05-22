@@ -2,6 +2,11 @@
 #define DEFS_HPP
 
 
+char const * const ORG_NAME = "SPbAU";
+char const * const ORG_DOMAIN = "mit.spbau.ru";
+char const * const APP_NAME = "AUGoogleNotifier";
+
+
 char const * const APPSERVER = "https://spbau-notifier-583.appspot.com/";
 char const * const LOGIN_PATH = "login";
 char const * const LOGOUT_PATH = "logout";
