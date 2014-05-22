@@ -3,6 +3,7 @@
 #include <QTimer>
 
 #include "Controller.hpp"
+#include "defs.hpp"
 
 
 int main(int argc, char **argv)
