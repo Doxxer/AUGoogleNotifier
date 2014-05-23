@@ -15,6 +15,7 @@ public:
     {
     }
 
+public slots:
     virtual void process() = 0;
 
 signals:
