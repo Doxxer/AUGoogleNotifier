@@ -225,8 +225,8 @@ void Controller::createGui()
 bool Controller::loadSubscribed()
 {
     QSettings settings;
-    return settings.contains(SUBSCRIBE_PATH)
-            && settings.value(SUBSCRIBE_PATH).toBool();
+    return settings.contains(SUBSCRIBED_SETTING)
+            && settings.value(SUBSCRIBED_SETTING).toBool();
 }
 
 
@@ -235,7 +235,7 @@ void Controller::saveSubscribed()
     QSettings settings;
     if (!settings.isWritable())
         return;
-    settings.setValue(SUBSCRIBE_PATH, m_subscribed);
+    settings.setValue(SUBSCRIBED_SETTING, m_subscribed);
     settings.sync();
 }
 
