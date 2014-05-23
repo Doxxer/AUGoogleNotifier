@@ -13,7 +13,7 @@
 	<key>CFBundleSignature</key>
 	<string>????</string>
 	<key>CFBundleExecutable</key>
-	<string>client</string>
+	<string>GoogleNotifier</string>
 	<key>CFBundleIdentifier</key>
 	<string>ru.spbau.mit.AUGoogleNotifier</string>
 	<key>NOTE</key>
