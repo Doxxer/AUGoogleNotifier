@@ -22,7 +22,7 @@ void show(QString const &url, QString const &title, QString const &userName)
             QStringList() << title
                           << userName
                           << "-i" << "gtk-info");
-#elif Q_OS_OSX
+#elif defined Q_OS_OSX
     QProcess::execute(
             "terminal-notifier",
             QStringList() << "-title" << title
