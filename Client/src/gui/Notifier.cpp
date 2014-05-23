@@ -14,8 +14,7 @@ Notifier::Notifier(Controller *controller, QObject *parent):
 }
 
 
-void Notifier::show(QString const &url, QString const &title,
-                    QString const &userName)
+void Notifier::show(QString const &title, QString const &userName)
 {
 #ifdef Q_OS_LINUX
     QProcess::execute(
@@ -23,13 +22,6 @@ void Notifier::show(QString const &url, QString const &title,
             QStringList() << title
                           << userName
                           << "-i" << "gtk-info");
-#elif defined Q_OS_OSX
-    QProcess::execute(
-            "terminal-notifier",
-            QStringList() << "-title" << title
-                          << "-subtitle" << userName
-                          << "-open" << url
-                          << "-message" << "Document is modified");
 #else
     m_controller->showMessage(title, userName);
 #endif
@@ -54,9 +46,7 @@ void Notifier::notify(QString const &json)
         QString title(entry.value("title").toString());
         QString userName(entry.value("user_name").toString());
 
-        show(url, title, userName);
-
-        if (i == changesArray.size() - 1)
-            m_controller->setLastChanged(url);
+        m_controller->setLastChanged(url);
+        show(title, userName);
     }
 }

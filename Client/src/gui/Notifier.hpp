@@ -18,8 +18,7 @@ public slots:
     void notify(QString const &json);
 
 private:
-    void show(QString const &url, QString const &title,
-              QString const &userName);
+    void show(QString const &title, QString const &userName);
 
 private:
     Controller *m_controller;
