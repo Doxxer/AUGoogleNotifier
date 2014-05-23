@@ -44,16 +44,19 @@ def retrieve_change(service, change_id):
     result = {}
     try:
         change = service.changes().get(changeId=change_id).execute()
+        if not change.get('file'):
+            return {}
+        file_info = change['file']
         result['modificationDate'] = change['modificationDate']
-        if change.get('file'):
-            file_info = change['file']
-            result['title'] = file_info['title']
-            result['URL'] = file_info['alternateLink']
-            if file_info.get('lastModifyingUser'):
-                user = file_info['lastModifyingUser']
+        result['title'] = file_info['title']
+        result['URL'] = file_info['alternateLink']
+        if file_info.get('lastModifyingUser'):
+            user = file_info['lastModifyingUser']
+            result['user_name'] = "Неизвестный пользователь"
+            if user.get('displayName'):
                 result['user_name'] = user['displayName']
-                if user.get('picture') and user['picture'].get('url'):
-                    result['picture'] = user['picture']['url']
+            if user.get('picture') and user['picture'].get('url'):
+                result['picture'] = user['picture']['url']
     except HttpError, error:
         logging.warning('Error occurred while retrieve changes:')
         logging.warning(error)
