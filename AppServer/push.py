@@ -1,4 +1,6 @@
+# coding=utf-8
 import logging
+import datetime
 
 from apiclient.errors import HttpError
 
@@ -33,6 +35,30 @@ def watch_change(service, channel_id, channel_type, channel_address,
     return service.changes().watch(body=body).execute()
 
 
+def check_modification_date(file_info):
+    try:
+        if file_info['modifiedDate'] == file_info['modifiedByMeDate']:
+            return False
+    except KeyError:
+        pass
+    return True
+
+
+def check_is_viewed(file_info):
+    try:
+        modifiedDate = datetime.datetime.strptime(file_info['modifiedDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        lastViewedByMeDate = datetime.datetime.strptime(file_info['lastViewedByMeDate'], '%Y-%m-%dT%H:%M:%S.%fZ')
+        if lastViewedByMeDate >= modifiedDate:
+            return False
+    except KeyError:
+        pass
+    return True
+
+
+def filter_change(file_info):
+    return check_modification_date(file_info) and check_is_viewed(file_info)
+
+
 def retrieve_change(service, change_id):
     """
     Print a single Change resource information.
@@ -47,6 +73,9 @@ def retrieve_change(service, change_id):
         if not change.get('file'):
             return {}
         file_info = change['file']
+        if not filter_change(file_info):
+            return {}
+
         result['modificationDate'] = change['modificationDate']
         result['title'] = file_info['title']
         result['URL'] = file_info['alternateLink']
