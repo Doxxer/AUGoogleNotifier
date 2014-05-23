@@ -184,6 +184,9 @@ QAction *connectProcessor(CommandProcessor *processor, QMenu *menu,
 void Controller::createGui()
 {
     m_trayIcon = new QSystemTrayIcon(QIcon(":/resources/icon.png"), this);
+    connect(m_trayIcon, SIGNAL(messageClicked()), this,
+            SLOT(openLastChanged()));
+
     QMenu *menu = new QMenu();
 
     createAction(menu, "Open &recent documents", this, SLOT(openRecent()));
