@@ -8,7 +8,7 @@ CONFIG (debug, debug | release) {
     OBJECTS_DIR = build/obj/debug
     RCC_DIR = build/rcc/debug
 } else {
-    TARGET = client
+    TARGET = GoogleNotifier
     OBJECTS_DIR = build/obj/release
     RCC_DIR = build/rcc/release
 }
