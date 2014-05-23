@@ -40,6 +40,12 @@ void Controller::setLastChanged(QString const &url)
 }
 
 
+void Controller::showMessage(QString const &title, QString const &msg)
+{
+    m_trayIcon->showMessage(title, msg);
+}
+
+
 void Controller::prepare(bool authorized)
 {
     createGui();

@@ -14,7 +14,8 @@ Notifier::Notifier(Controller *controller, QObject *parent):
 }
 
 
-void show(QString const &url, QString const &title, QString const &userName)
+void Notifier::show(QString const &url, QString const &title,
+                    QString const &userName)
 {
 #ifdef Q_OS_LINUX
     QProcess::execute(
@@ -30,7 +31,7 @@ void show(QString const &url, QString const &title, QString const &userName)
                           << "-open" << url
                           << "-message" << "Document is modified");
 #else
-    ;
+    m_controller->showMessage(title, userName);
 #endif
 }
 
