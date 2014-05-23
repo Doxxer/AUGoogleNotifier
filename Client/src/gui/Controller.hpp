@@ -17,7 +17,9 @@ class Controller: public QObject
 public:
     Controller(QObject *parent = 0);
     void setLastChanged(QString const &url);
-    void showMessage(QString const &title, QString const &msg);
+    void showMessage(
+            QString const &title, QString const &msg,
+            QSystemTrayIcon::MessageIcon icon = QSystemTrayIcon::Information);
 
 private slots:
     void prepare(bool authorized);

@@ -40,9 +40,10 @@ void Controller::setLastChanged(QString const &url)
 }
 
 
-void Controller::showMessage(QString const &title, QString const &msg)
+void Controller::showMessage(QString const &title, QString const &msg,
+                             QSystemTrayIcon::MessageIcon icon)
 {
-    m_trayIcon->showMessage(title, msg);
+    m_trayIcon->showMessage(title, msg, icon);
 }
 
 
@@ -99,13 +100,13 @@ void Controller::openLastChanged()
 
 void Controller::processError(QString const &errMsg)
 {
-    showMessageBox(errMsg, QMessageBox::Warning);
+    showMessage("Warning!", errMsg, QSystemTrayIcon::Warning);
 }
 
 
 void Controller::processAuth(QString const &msg)
 {
-    showMessageBox(msg);
+    showMessage("Success", msg);
 
     m_authorizeAction->setEnabled(false);
     m_logoutAction->setEnabled(true);
@@ -117,7 +118,7 @@ void Controller::processAuth(QString const &msg)
 
 void Controller::processLogout(QString const &msg)
 {
-    showMessageBox(msg);
+    showMessage("Success", msg);
 
     unsubscribe();
 
@@ -133,7 +134,7 @@ void Controller::processLogout(QString const &msg)
 
 void Controller::processSubscribe(QString const &msg)
 {
-    showMessageBox(msg);
+    showMessage("Success", msg);
 
     m_subscribeAction->setEnabled(false);
     m_unsubscribeAction->setEnabled(true);
@@ -149,7 +150,7 @@ void Controller::processUnsubscribe(QString const &msg)
 {
     unsubscribe();
 
-    showMessageBox(msg);
+    showMessage("Success", msg);
 
     m_subscribeAction->setEnabled(true);
     m_unsubscribeAction->setEnabled(false);
