@@ -16,6 +16,7 @@ class Controller: public QObject
 
 public:
     Controller(QObject *parent = 0);
+    void setLastChanged(QString const &url);
 
 private slots:
     void prepare(bool authorized);

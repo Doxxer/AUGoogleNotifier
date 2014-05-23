@@ -20,7 +20,7 @@ Controller::Controller(QObject *parent):
     m_networkManager(new NetworkManager(APPSERVER, this)),
     m_changesPoller(new ChangesPoller(m_networkManager, this)),
     m_resubscriber(new Resubscriber(m_networkManager, this)),
-    m_notifier(new Notifier(this))
+    m_notifier(new Notifier(this, this))
 {
     AuthorizationChecker *checker = new AuthorizationChecker(
             m_networkManager, this);
@@ -30,6 +30,13 @@ Controller::Controller(QObject *parent):
 
     connect(m_changesPoller, SIGNAL(result(QString const &)),
             m_notifier, SLOT(notify(QString const &)));
+}
+
+
+void Controller::setLastChanged(QString const &url)
+{
+    m_lastChanged = url;
+    m_lastChangedAction->setEnabled(true);
 }
 
 

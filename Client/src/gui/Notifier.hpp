@@ -5,15 +5,20 @@
 #include <QString>
 
 
+class Controller;
+
 class Notifier: public QObject
 {
     Q_OBJECT
 
 public:
-    explicit Notifier(QObject *parent = 0);
+    explicit Notifier(Controller *controller, QObject *parent = 0);
 
 public slots:
     void notify(QString const &json);
+
+private:
+    Controller *m_controller;
 };
 
 
