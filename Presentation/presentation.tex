@@ -52,18 +52,30 @@
         \end{itemize}
     \end{frame}
     
-        \begin{frame}\frametitle{Проблемы (клиентская часть)}
+    \begin{frame}\frametitle{Проблемы (клиентская часть)}
         \begin{itemize}%[<+->]
-            \item   Особенности Qt 5 под Ubuntu (Unity)
-            \item   Особенности кросс-платформенной разработки в Qt (Linux/Mac OS X/Windows)
+            \item Особенности кросс-платформенной разработки в Qt \\
+            (Linux / Mac OS X / Windows)
+            \item Особенности Qt 5 под Ubuntu (Unity)
         \end{itemize}
     \end{frame}
     
     \begin{frame}\frametitle{Результаты (клиентская часть)}
         \begin{itemize}%[<+->]
-            \item	Разработано кросс-платформенное ядро клиента            	
-            \item	Консольный прототип клиента для тестирования функциональности
-            \item	Разработаны platform-spisific клиенты с графическим интерфейсом
+            \item Разработано кроссплатформенное ядро клиента            	
+            \begin{itemize}
+                \item работа с сетью
+                \item простой HTTP-сервер
+                \item классы для выполнения основных действий
+            \end{itemize}
+            \item Консольный прототип клиента для тестирования функциональности
+            \item Клиент с графическим интерфейсом под \\ OS X, Ubuntu, Windows
+            \begin{itemize}
+                \item общая кроссплатформенная часть
+                \item платформозависимая часть --- вывод уведомлений
+                \item поддерживает сохранение состояния (авторизация, подписка
+                на уведомления) между запусками
+            \end{itemize}
         \end{itemize}
     \end{frame}
 
