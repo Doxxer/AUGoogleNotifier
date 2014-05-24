@@ -8,7 +8,7 @@
 
 \begin{document}
 
-    \title[GoogleNotifier]{Гугл-уведомлятор}
+    \title[GoogleNotifier]{SPbAU Google Notifier}
     \subtitle{НИР, СПбАУ, весна 2014}
     \author{Тимур Тураев, Богдан Бугаев \\ Руководитель: Евгений Краско}
     \date{26 мая 2014 г.}
@@ -27,14 +27,22 @@
     
     \begin{frame}\frametitle{О проекте}
         \begin{itemize}
-            \item	PlaceHolder (TT)
+            \item	Google позволяет отследить изменения одного конкретного документа
+            \pause
+            \item	На изменения нужно подписываться вручную
+            \pause            
+            \item	Это не очень удобно, когда документов много
+            \pause            
+            \item	Хочется автоматически следить за всеми документами разом
+            \pause            
+            \item	Кросплатформенность
         \end{itemize}
     \end{frame}    
 
     \begin{frame}\frametitle{Задачи}
         \begin{itemize}%[<+->]
-            \item	TO KRASKO: какие задачи описывать -- те, что стояли изначально (то есть, написать сервер, написать клиенты)
-            \item   Разобраться с серверной часть PL
+            \item	TO KRASKO: какие задачи описывать -- те, что стояли изначально (то есть, написать сервер, написать клиенты) или конкретно: написать модуль авторизации, написать модуль подписки, модуль граббера
+            \item   Разобраться с серверной часть PL (?)
             \item   Клиенты
             \item   (*) Мобильная платформа
         \end{itemize}
@@ -42,13 +50,27 @@
     
     \begin{frame}\frametitle{Проблемы}
         \begin{itemize}%[<+->]
-            \item   PL (серверная часть) (TT)
+	        \item   Google App Engine
+	        \pause	        
+            \item   Особенность Google Drive API
+            \begin{itemize}
+                \item иформация в NotificationCallback
+                \item обновление подписки
+                \item регистрация сайта
+                \item billing                
+            \end{itemize}
         \end{itemize}
     \end{frame}
     
     \begin{frame}\frametitle{Результаты}
         \begin{itemize}%[<+->]
-            \item	PL (серверная часть) (TT)
+            \item	Написан веб-сервер, обрабатывающий запросы, поступающие от клиентов            
+            \item	Авторизация, аутентификация, сессии, защита cookie
+	        \pause
+            \item	Модуль подписок (с автообновлением)
+            \item	Сохранение информации об изменениях в базу данных
+	        \pause
+            \item	\textit{Фильтры изменений}
         \end{itemize}
     \end{frame}
     
@@ -81,8 +103,13 @@
 
     \begin{frame}\frametitle{Полученные знания}
         \begin{itemize}%[<+->]
-            \item	PL (серверная часть)
-            \item	PL (клиентская часть)
+            \item	Изучены основные принципы разработки клиент-серверных приложений
+            \begin{itemize}
+                \item механизм OAuth2 авторизации
+                \item механизм построения и разработки веб-сервисов
+            \end{itemize}            
+            \item	Изучена связка GoogleAppEngine + webApp2 + Google Database API
+            \item	Тонкие моменты кроссплатформенных приложений на Qt
         \end{itemize}
     \end{frame}
 
