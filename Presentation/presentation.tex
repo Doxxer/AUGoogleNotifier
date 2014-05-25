@@ -78,6 +78,7 @@
         	\item Клиентская часть
 	        \begin{itemize}
                 \item модуль сетевого взаимодействия
+                \item модуль GUI
                 \item модуль визуализации уведомлений (notifications)
             \end{itemize}                        
         \end{itemize}
@@ -128,9 +129,37 @@
     
     \begin{frame}\frametitle{Проблемы (клиентская часть)}
         \begin{itemize}%[<+->]
-            \item Особенности кросс-платформенной разработки в Qt \\
-            (Linux / OS X / Windows)
+            \item Выбор языка и библиотек для разработки. Кроссплатформенность
+            \pause
+            \begin{itemize}
+                \item C++
+                \item Qt
+            \end{itemize}
+            \pause
+            \item Извлечение изменений с сервера
+            \pause
+            \begin{itemize}
+                \item опрос с заданной периодичностью (polling)
+            \end{itemize}
+            \pause
+            \item Ограниченное непродляемое время жизни подписки на изменения
+            \pause
+            \begin{itemize}
+                \item клиент переподписывается сам c заданной периодичностью
+            \end{itemize}
+            \pause
+            \item Сохранение состояния программы между запусками
+            \pause
+            \begin{itemize}
+                \item запоминание параметров сессии в настройках приложения \\
+                (Linux и OS X --- .ini / Windows --- реестр)
+            \end{itemize}
+            \pause
             \item Особенности Qt 5 под Ubuntu (Unity)
+            \begin{itemize}
+                \item использование notify-osd
+                \item ждем, пока sni-qt адаптируют под Qt 5
+            \end{itemize}
         \end{itemize}
     \end{frame}
     
