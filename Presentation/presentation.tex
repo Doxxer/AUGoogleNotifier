@@ -34,16 +34,33 @@
             \pause            
             \item	Хочется автоматически следить за всеми документами разом
             \pause            
-            \item	Настольное приложение
+            \item	С помощью настольного приложения
         \end{itemize}
     \end{frame}    
     
     \begin{frame}\frametitle{Архитектура}
+    	\begin{figure}[ht] 
+            \begin{minipage}[b]{0.5\linewidth}
+                \centering
+                \includegraphics[scale=0.25]{auth.png} 
+            \end{minipage}%%
+            \begin{minipage}[b]{0.5\linewidth}
+                \centering
+	            \includegraphics[scale=0.25]{changes.png} 
+            \end{minipage}
+            \begin{minipage}[b]{0.5\linewidth}
+    	        \centering
+                \includegraphics[scale=0.25]{subscription.png} 
+            \end{minipage}%%
+            \begin{minipage}[b]{0.5\linewidth}
+                \centering
+                \includegraphics[scale=0.25]{listening.png} 
+            \end{minipage} 
+        \end{figure}
         \begin{itemize}%[<+->]
-            \item	ТУТ МЫ ПОПРОБУЕМ НАРИСОВАТЬ КАРТИНКУ
             \item	Google позволяет подписаться на все изменения сразу всех документов
             \pause
-            \item   Уведомления об изменениях Google посылает на наш сервер
+            \item   Уведомления об изменениях Google посылает на сервер
             \pause
             \item   Клиенты подключаются к нашему серверу, получая все поступившие изменения документов
         \end{itemize}
@@ -74,7 +91,7 @@
                 \item GAE (Google App Engine)
                 \item webApp2 (Python)       
             \end{itemize}
-	        \pause            
+	        \pause
             \item	Ограниченное непродляемое время жизни подписки на изменения
 	        \pause
             \begin{itemize}
