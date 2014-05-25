@@ -3,7 +3,7 @@ from handlers.BaseHandler import BaseHandler
 
 
 class SubscribeHandler(BaseHandler):
-    @validateCredential
+    @validateCredential()
     def post(self):
         """
         POST request handling method.

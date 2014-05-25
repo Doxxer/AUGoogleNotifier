@@ -44,4 +44,4 @@ handler = webapp2.WSGIApplication([
                                       ('/get_changes', GetChangesHandler),
                                       ('/login', LoginHandler),
                                       ('/logout', LogoutHandler),
-                                  ], config=webApp2Config, debug=True)
+                                  ], config=webApp2Config, debug=False)

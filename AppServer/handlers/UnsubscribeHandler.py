@@ -5,7 +5,7 @@ from handlers.BaseHandler import BaseHandler
 
 
 class UnsubscribeHandler(BaseHandler):
-    @validateCredential
+    @validateCredential()
     def post(self):
         """
         POST request handling method.
