@@ -67,6 +67,7 @@ void Controller::prepare(bool authorized)
         m_subscribeAction->setEnabled(false);
         m_unsubscribeAction->setEnabled(false);
         m_subscribed = false;
+        saveSubscribed();
     }
 }
 
