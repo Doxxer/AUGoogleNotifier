@@ -23,38 +23,71 @@
     
     \begin{frame}\frametitle{О проекте}
         \begin{itemize}
-        	\item	https://spbau-notifier-583.appspot.com
+        	\item	Google-документы часто изменяются
+	       	\item	Бывает важно быстро узнать, что изменился тот или иной документ
+	       	\pause
             \item	Google позволяет отследить изменения одного конкретного документа
             \pause
-            \item	На изменения нужно подписываться вручную
+            \item	На эти изменения нужно подписываться вручную
             \pause            
             \item	Это не очень удобно, когда документов много
             \pause            
             \item	Хочется автоматически следить за всеми документами разом
             \pause            
-            \item	Кросплатформенность
+            \item	Настольное приложение
         \end{itemize}
     \end{frame}    
+    
+    \begin{frame}\frametitle{Архитектура}
+        \begin{itemize}%[<+->]
+            \item	ТУТ МЫ ПОПРОБУЕМ НАРИСОВАТЬ КАРТИНКУ
+            \item	Google позволяет подписаться на все изменения сразу всех документов
+            \pause
+            \item   Уведомления об изменениях Google посылает на наш сервер
+            \pause
+            \item   Клиенты подключаются к нашему серверу, получая все поступившие изменения документов
+        \end{itemize}
+    \end{frame}
 
     \begin{frame}\frametitle{Задачи}
         \begin{itemize}%[<+->]
-            \item	TO KRASKO: какие задачи описывать -- те, что стояли изначально (то есть, написать сервер, написать клиенты) или конкретно: написать модуль авторизации, написать модуль подписки, модуль граббера
-            \item   Разобраться с серверной часть PL (?)
-            \item   Клиенты
-            \item   (*) Мобильная платформа
+        	\item Серверная часть
+	        \begin{itemize}
+                \item модуль авторизации
+                \item модуль по работе с подписками
+                \item модуль обработки приходящих изменений от Google
+            \end{itemize}            
+            \pause
+        	\item Клиентская часть
+	        \begin{itemize}
+                \item модуль сетевого взаимодействия
+                \item модуль визуализации уведомлений (notifications)
+            \end{itemize}                        
         \end{itemize}
     \end{frame}
     
-    \begin{frame}\frametitle{Проблемы}
+    \begin{frame}\frametitle{Проблемы (серверная часть)}
         \begin{itemize}%[<+->]
-	        \item   Google App Engine
-	        \pause	        
-            \item   Особенность Google Drive API
+	        \item	Хостинг, web-framework
+	        \pause
             \begin{itemize}
-                \item иформация в NotificationCallback
-                \item обновление подписки
-                \item регистрация сайта
-                \item billing                
+                \item GAE (Google App Engine)
+                \item webApp2 (Python)       
+            \end{itemize}
+	        \pause            
+            \item	Ограниченное непродляемое время жизни подписки на изменения
+	        \pause
+            \begin{itemize}
+                \item Сохранение состояние в параметрах сессии
+                \item Клиент сам обновляет подписку
+            \end{itemize}
+	        \pause
+            \item	Push-уведомлений с изменениями от Google идут на зарегистрированный сервер и содержат только номер изменения
+	        \pause
+            \begin{itemize}
+                \item Зарегистированный сайт
+                \item Сохранение изменений в базу данных
+                \item Сервер (по запросу клиента) запрашивает у Google информацию об изменениях по их номеру
             \end{itemize}
         \end{itemize}
     \end{frame}
@@ -67,7 +100,12 @@
             \item	Модуль подписок (с автообновлением)
             \item	Сохранение информации об изменениях в базу данных
 	        \pause
-            \item	\textit{Фильтры изменений}
+            \item	Фильтры
+            \begin{itemize}
+                \item Изменения самим собой игнорируются
+                \item Не посылаются уведомления, в которых время последнего просмотра документа превышает время последнего изменения.
+            \end{itemize}
+
         \end{itemize}
     \end{frame}
     
