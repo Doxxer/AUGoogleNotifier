@@ -36,37 +36,22 @@
             \pause            
             \item	С помощью настольного приложения
         \end{itemize}
-    \end{frame}    
-    
-    \begin{frame}\frametitle{Архитектура}
-    	\begin{figure}[ht] 
-            \begin{minipage}[b]{0.5\linewidth}
-                \centering
-                \includegraphics[scale=0.25]{auth.png} 
-            \end{minipage}%%
-            \begin{minipage}[b]{0.5\linewidth}
-                \centering
-	            \includegraphics[scale=0.25]{changes.png} 
-            \end{minipage}
-            \begin{minipage}[b]{0.5\linewidth}
-    	        \centering
-                \includegraphics[scale=0.25]{subscription.png} 
-            \end{minipage}%%
-            \begin{minipage}[b]{0.5\linewidth}
-                \centering
-                \includegraphics[scale=0.25]{listening.png} 
-            \end{minipage} 
-        \end{figure}
-        \begin{itemize}%[<+->]
-            \item	Google позволяет подписаться на все изменения сразу всех документов
-            \pause
-            \item   Уведомления об изменениях Google посылает на сервер
-            \pause
-            \item   Клиенты подключаются к нашему серверу, получая все поступившие изменения документов
-        \end{itemize}
     \end{frame}
+    
+    \begin{frame}\frametitle{Google Drive API}
+        \begin{itemize}%[<+->]
+            \pause
+            \item	Google Drive API позволяет прослушивать изменения всех <<недавних>> документов
+            \pause
+            \item   Уведомления об изменениях Google посылает на заранее зарегистрированный сервер (HTTPS, POST-запрос)
+            \pause
+            \item   Все запросы к Google Drive API требуют аутентификацию
+            \pause          
+            \item   Почти любое действие с документом Google квалифицирует как <<изменение>>
+        \end{itemize}
+    \end{frame}    
 
-    \begin{frame}\frametitle{Задачи}
+	\begin{frame}\frametitle{Задачи}
         \begin{itemize}%[<+->]
         	\item Серверная часть
 	        \begin{itemize}
@@ -82,6 +67,27 @@
                 \item модуль визуализации уведомлений (notifications)
             \end{itemize}                        
         \end{itemize}
+    \end{frame}
+    
+    \begin{frame}\frametitle{Архитектура}
+    	\begin{figure}[ht] 
+            \begin{minipage}[b]{0.5\linewidth}
+                \centering
+                \includegraphics[scale=0.3]{auth.png} 
+            \end{minipage}%%
+            \begin{minipage}[b]{0.5\linewidth}
+                \centering
+	            \includegraphics[scale=0.3]{changes.png} 
+            \end{minipage}
+            \begin{minipage}[b]{0.5\linewidth}
+    	        \centering
+                \includegraphics[scale=0.3]{subscription.png} 
+            \end{minipage}%%
+            \begin{minipage}[b]{0.5\linewidth}
+                \centering
+                \includegraphics[scale=0.3]{listening.png} 
+            \end{minipage} 
+        \end{figure}
     \end{frame}
     
     \begin{frame}\frametitle{Проблемы (серверная часть)}
@@ -100,7 +106,7 @@
                 \item Клиент сам обновляет подписку
             \end{itemize}
 	        \pause
-            \item	Push-уведомлений с изменениями от Google идут на зарегистрированный сервер и содержат только номер изменения
+            \item	Push-уведомления с изменениями от Google идут на зарегистрированный сервер и содержат только номер изменения
 	        \pause
             \begin{itemize}
                 \item Зарегистированный сайт
@@ -112,7 +118,7 @@
     
     \begin{frame}\frametitle{Результаты (серверная часть)}
         \begin{itemize}%[<+->]
-            \item	Написан веб-сервер, обрабатывающий запросы, поступающие от клиентов            
+            \item	Написано серверное приложение, обрабатывающее запросы, поступающие от клиентов            
             \item	Авторизация, аутентификация, сессии, защита cookie
 	        \pause
             \item	Модуль подписок (с автообновлением)
@@ -158,7 +164,7 @@
             \pause
             \begin{itemize}
                 \item запоминание параметров сессии в настройках приложения \\
-                (Linux и OS X --- .ini / Windows --- реестр)
+                (Linux --- .ini, OS X --- .plist файлы / Windows --- реестр)
             \end{itemize}
             \pause
             \item Особенности Qt 5 под Ubuntu (Unity)
